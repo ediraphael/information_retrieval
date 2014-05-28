@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.StringTokenizer;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,6 +20,35 @@ import org.xml.sax.SAXException;
 
 public class ParserAP
 {
+	public void loadAllApDocument()
+	{
+		try
+		{
+			Stemmer stemmer = new Stemmer();
+			BufferedReader inputF = new BufferedReader(new FileReader("./bin/document/ap/doclist.txt"));
+			String line = null;
+			while ((line = inputF.readLine()) != null)
+			{
+				ApDocument documentTest = this.loadApDocument(line.split(" ")[1]);
+				if (documentTest != null)
+				{
+					StringTokenizer tokens = new StringTokenizer(documentTest.getText(), " ''``;,.\n\t\r");
+
+					while (tokens.hasMoreElements())
+					{
+						String token = tokens.nextToken();
+						stemmer.stemmerWord(token, line.split(" ")[1]);
+					}
+				}
+			}
+			System.out.println(Stemmer.getDiction().size());
+			inputF.close();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 	public ApDocument loadApDocument(String documentName)
 	{
 		ApDocument apDocument = null;
@@ -120,27 +150,6 @@ public class ParserAP
 	public static void main(String[] args)
 	{
 		ParserAP parser = new ParserAP();
-		ApDocument document = parser.loadApDocument("AP891216-0002");
-		if (document != null)
-		{
-			System.out.println(document);
-		} else
-		{
-			System.out.println("Aucun document en mémoire");
-		}
-
-		try
-		{
-			BufferedReader inputF = new BufferedReader(new FileReader("./bin/document/ap/doclist.txt"));
-			String line = null;
-			while ((line = inputF.readLine()) != null)
-			{
-				ApDocument documentTest = parser.loadApDocument(line.split(" ")[1]);
-			}
-			inputF.close();
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		} 
+		parser.loadAllApDocument();
 	}
 }

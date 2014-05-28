@@ -35,38 +35,42 @@ package model;
  */
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Stemmer, implementing the Porter Stemming Algorithm
  * 
- * The Stemmer class transforms a word into its root form. The input word can be
- * provided a character at time (by calling add()), or at once by calling one of
- * the various stem(something) methods.
+ * The Stemmer class transforms a word into its root form. The input word can be provided a character at time (by calling add()), or at once by calling one of the various stem(something) methods.
  */
 
-class Stemmer {
+class Stemmer
+{
 	private char[] b;
 	private int i, /* offset into b */
 	i_end, /* offset to end of stemmed word */
 	j, k;
 	private static final int INC = 50;
 	private static ArrayList<String> stemmerFile;
+	private static HashMap<String, HashMap<String, Integer>> diction;
 
 	/* unit of size whereby b is increased */
-	public Stemmer() {
+	public Stemmer()
+	{
 		stemmerFile = new ArrayList<String>();
+		diction = new HashMap<String, HashMap<String, Integer>>();
 		b = new char[INC];
 		i = 0;
 		i_end = 0;
 	}
 
 	/**
-	 * Add a character to the word being stemmed. When you are finished adding
-	 * characters, you can call stem(void) to stem the word.
+	 * Add a character to the word being stemmed. When you are finished adding characters, you can call stem(void) to stem the word.
 	 */
 
-	public void add(char ch) {
-		if (i == b.length) {
+	public void add(char ch)
+	{
+		if (i == b.length)
+		{
 			char[] new_b = new char[i + INC];
 			for (int c = 0; c < i; c++)
 				new_b[c] = b[c];
@@ -76,12 +80,13 @@ class Stemmer {
 	}
 
 	/**
-	 * Adds wLen characters to the word being stemmed contained in a portion of
-	 * a char[] array. This is like repeated calls of add(char ch), but faster.
+	 * Adds wLen characters to the word being stemmed contained in a portion of a char[] array. This is like repeated calls of add(char ch), but faster.
 	 */
 
-	public void add(char[] w, int wLen) {
-		if (i + wLen >= b.length) {
+	public void add(char[] w, int wLen)
+	{
+		if (i + wLen >= b.length)
+		{
 			char[] new_b = new char[i + wLen + INC];
 			for (int c = 0; c < i; c++)
 				new_b[c] = b[c];
@@ -92,34 +97,35 @@ class Stemmer {
 	}
 
 	/**
-	 * After a word has been stemmed, it can be retrieved by toString(), or a
-	 * reference to the internal buffer can be retrieved by getResultBuffer and
-	 * getResultLength (which is generally more efficient.)
+	 * After a word has been stemmed, it can be retrieved by toString(), or a reference to the internal buffer can be retrieved by getResultBuffer and getResultLength (which is generally more efficient.)
 	 */
-	public String toString() {
+	public String toString()
+	{
 		return new String(b, 0, i_end);
 	}
 
 	/**
 	 * Returns the length of the word resulting from the stemming process.
 	 */
-	public int getResultLength() {
+	public int getResultLength()
+	{
 		return i_end;
 	}
 
 	/**
-	 * Returns a reference to a character buffer containing the results of the
-	 * stemming process. You also need to consult getResultLength() to determine
-	 * the length of the result.
+	 * Returns a reference to a character buffer containing the results of the stemming process. You also need to consult getResultLength() to determine the length of the result.
 	 */
-	public char[] getResultBuffer() {
+	public char[] getResultBuffer()
+	{
 		return b;
 	}
 
 	/* cons(i) is true <=> b[i] is a consonant. */
 
-	private final boolean cons(int i) {
-		switch (b[i]) {
+	private final boolean cons(int i)
+	{
+		switch (b[i])
+		{
 		case 'a':
 		case 'e':
 		case 'i':
@@ -134,18 +140,17 @@ class Stemmer {
 	}
 
 	/*
-	 * m() measures the number of consonant sequences between 0 and j. if c is a
-	 * consonant sequence and v a vowel sequence, and <..> indicates arbitrary
-	 * presence,
+	 * m() measures the number of consonant sequences between 0 and j. if c is a consonant sequence and v a vowel sequence, and <..> indicates arbitrary presence,
 	 * 
-	 * <c><v> gives 0 <c>vc<v> gives 1 <c>vcvc<v> gives 2 <c>vcvcvc<v> gives 3
-	 * ....
+	 * <c><v> gives 0 <c>vc<v> gives 1 <c>vcvc<v> gives 2 <c>vcvcvc<v> gives 3 ....
 	 */
 
-	private final int m() {
+	private final int m()
+	{
 		int n = 0;
 		int i = 0;
-		while (true) {
+		while (true)
+		{
 			if (i > j)
 				return n;
 			if (!cons(i))
@@ -153,8 +158,10 @@ class Stemmer {
 			i++;
 		}
 		i++;
-		while (true) {
-			while (true) {
+		while (true)
+		{
+			while (true)
+			{
 				if (i > j)
 					return n;
 				if (cons(i))
@@ -163,7 +170,8 @@ class Stemmer {
 			}
 			i++;
 			n++;
-			while (true) {
+			while (true)
+			{
 				if (i > j)
 					return n;
 				if (!cons(i))
@@ -176,7 +184,8 @@ class Stemmer {
 
 	/* vowelinstem() is true <=> 0,...j contains a vowel */
 
-	private final boolean vowelinstem() {
+	private final boolean vowelinstem()
+	{
 		int i;
 		for (i = 0; i <= j; i++)
 			if (!cons(i))
@@ -186,7 +195,8 @@ class Stemmer {
 
 	/* doublec(j) is true <=> j,(j-1) contain a double consonant. */
 
-	private final boolean doublec(int j) {
+	private final boolean doublec(int j)
+	{
 		if (j < 1)
 			return false;
 		if (b[j] != b[j - 1])
@@ -195,14 +205,13 @@ class Stemmer {
 	}
 
 	/*
-	 * cvc(i) is true <=> i-2,i-1,i has the form consonant - vowel - consonant
-	 * and also if the second c is not w,x or y. this is used when trying to
-	 * restore an e at the end of a short word. e.g.
+	 * cvc(i) is true <=> i-2,i-1,i has the form consonant - vowel - consonant and also if the second c is not w,x or y. this is used when trying to restore an e at the end of a short word. e.g.
 	 * 
 	 * cav(e), lov(e), hop(e), crim(e), but snow, box, tray.
 	 */
 
-	private final boolean cvc(int i) {
+	private final boolean cvc(int i)
+	{
 		if (i < 2 || !cons(i) || cons(i - 1) || !cons(i - 2))
 			return false;
 		{
@@ -213,7 +222,8 @@ class Stemmer {
 		return true;
 	}
 
-	private final boolean ends(String s) {
+	private final boolean ends(String s)
+	{
 		int l = s.length();
 		int o = k - l + 1;
 		if (o < 0)
@@ -226,11 +236,11 @@ class Stemmer {
 	}
 
 	/*
-	 * setto(s) sets (j+1),...k to the characters in the string s, readjusting
-	 * k.
+	 * setto(s) sets (j+1),...k to the characters in the string s, readjusting k.
 	 */
 
-	private final void setto(String s) {
+	private final void setto(String s)
+	{
 		int l = s.length();
 		int o = j + 1;
 		for (int i = 0; i < l; i++)
@@ -240,7 +250,8 @@ class Stemmer {
 
 	/* r(s) is used further down. */
 
-	private final void r(String s) {
+	private final void r(String s)
+	{
 		if (m() > 0)
 			setto(s);
 	}
@@ -252,14 +263,15 @@ class Stemmer {
 	 * 
 	 * feed -> feed agreed -> agree disabled -> disable
 	 * 
-	 * matting -> mat mating -> mate meeting -> meet milling -> mill messing ->
-	 * mess
+	 * matting -> mat mating -> mate meeting -> meet milling -> mill messing -> mess
 	 * 
 	 * meetings -> meet
 	 */
 
-	private final void step1() {
-		if (b[k] == 's') {
+	private final void step1()
+	{
+		if (b[k] == 's')
+		{
 			if (ends("sses"))
 				k -= 2;
 			else if (ends("ies"))
@@ -267,10 +279,12 @@ class Stemmer {
 			else if (b[k - 1] != 's')
 				k--;
 		}
-		if (ends("eed")) {
+		if (ends("eed"))
+		{
 			if (m() > 0)
 				k--;
-		} else if ((ends("ed") || ends("ing")) && vowelinstem()) {
+		} else if ((ends("ed") || ends("ing")) && vowelinstem())
+		{
 			k = j;
 			if (ends("at"))
 				setto("ate");
@@ -278,7 +292,8 @@ class Stemmer {
 				setto("ble");
 			else if (ends("iz"))
 				setto("ize");
-			else if (doublec(k)) {
+			else if (doublec(k))
+			{
 				k--;
 				{
 					int ch = b[k];
@@ -292,117 +307,139 @@ class Stemmer {
 
 	/* step2() turns terminal y to i when there is another vowel in the stem. */
 
-	private final void step2() {
+	private final void step2()
+	{
 		if (ends("y") && vowelinstem())
 			b[k] = 'i';
 	}
 
 	/*
-	 * step3() maps double suffices to single ones. so -ization ( = -ize plus
-	 * -ation) maps to -ize etc. note that the string before the suffix must
-	 * give m() > 0.
+	 * step3() maps double suffices to single ones. so -ization ( = -ize plus -ation) maps to -ize etc. note that the string before the suffix must give m() > 0.
 	 */
 
-	private final void step3() {
+	private final void step3()
+	{
 		if (k == 0)
 			return; /* For Bug 1 */
-		switch (b[k - 1]) {
+		switch (b[k - 1])
+		{
 		case 'a':
-			if (ends("ational")) {
+			if (ends("ational"))
+			{
 				r("ate");
 				break;
 			}
-			if (ends("tional")) {
+			if (ends("tional"))
+			{
 				r("tion");
 				break;
 			}
 			break;
 		case 'c':
-			if (ends("enci")) {
+			if (ends("enci"))
+			{
 				r("ence");
 				break;
 			}
-			if (ends("anci")) {
+			if (ends("anci"))
+			{
 				r("ance");
 				break;
 			}
 			break;
 		case 'e':
-			if (ends("izer")) {
+			if (ends("izer"))
+			{
 				r("ize");
 				break;
 			}
 			break;
 		case 'l':
-			if (ends("bli")) {
+			if (ends("bli"))
+			{
 				r("ble");
 				break;
 			}
-			if (ends("alli")) {
+			if (ends("alli"))
+			{
 				r("al");
 				break;
 			}
-			if (ends("entli")) {
+			if (ends("entli"))
+			{
 				r("ent");
 				break;
 			}
-			if (ends("eli")) {
+			if (ends("eli"))
+			{
 				r("e");
 				break;
 			}
-			if (ends("ousli")) {
+			if (ends("ousli"))
+			{
 				r("ous");
 				break;
 			}
 			break;
 		case 'o':
-			if (ends("ization")) {
+			if (ends("ization"))
+			{
 				r("ize");
 				break;
 			}
-			if (ends("ation")) {
+			if (ends("ation"))
+			{
 				r("ate");
 				break;
 			}
-			if (ends("ator")) {
+			if (ends("ator"))
+			{
 				r("ate");
 				break;
 			}
 			break;
 		case 's':
-			if (ends("alism")) {
+			if (ends("alism"))
+			{
 				r("al");
 				break;
 			}
-			if (ends("iveness")) {
+			if (ends("iveness"))
+			{
 				r("ive");
 				break;
 			}
-			if (ends("fulness")) {
+			if (ends("fulness"))
+			{
 				r("ful");
 				break;
 			}
-			if (ends("ousness")) {
+			if (ends("ousness"))
+			{
 				r("ous");
 				break;
 			}
 			break;
 		case 't':
-			if (ends("aliti")) {
+			if (ends("aliti"))
+			{
 				r("al");
 				break;
 			}
-			if (ends("iviti")) {
+			if (ends("iviti"))
+			{
 				r("ive");
 				break;
 			}
-			if (ends("biliti")) {
+			if (ends("biliti"))
+			{
 				r("ble");
 				break;
 			}
 			break;
 		case 'g':
-			if (ends("logi")) {
+			if (ends("logi"))
+			{
 				r("log");
 				break;
 			}
@@ -411,40 +448,49 @@ class Stemmer {
 
 	/* step4() deals with -ic-, -full, -ness etc. similar strategy to step3. */
 
-	private final void step4() {
-		switch (b[k]) {
+	private final void step4()
+	{
+		switch (b[k])
+		{
 		case 'e':
-			if (ends("icate")) {
+			if (ends("icate"))
+			{
 				r("ic");
 				break;
 			}
-			if (ends("ative")) {
+			if (ends("ative"))
+			{
 				r("");
 				break;
 			}
-			if (ends("alize")) {
+			if (ends("alize"))
+			{
 				r("al");
 				break;
 			}
 			break;
 		case 'i':
-			if (ends("iciti")) {
+			if (ends("iciti"))
+			{
 				r("ic");
 				break;
 			}
 			break;
 		case 'l':
-			if (ends("ical")) {
+			if (ends("ical"))
+			{
 				r("ic");
 				break;
 			}
-			if (ends("ful")) {
+			if (ends("ful"))
+			{
 				r("");
 				break;
 			}
 			break;
 		case 's':
-			if (ends("ness")) {
+			if (ends("ness"))
+			{
 				r("");
 				break;
 			}
@@ -454,10 +500,12 @@ class Stemmer {
 
 	/* step5() takes off -ant, -ence etc., in context <c>vcvc<v>. */
 
-	private final void step5() {
+	private final void step5()
+	{
 		if (k == 0)
 			return; /* for Bug 1 */
-		switch (b[k - 1]) {
+		switch (b[k - 1])
+		{
 		case 'a':
 			if (ends("al"))
 				break;
@@ -532,9 +580,11 @@ class Stemmer {
 
 	/* step6() removes a final -e if m() > 1. */
 
-	private final void step6() {
+	private final void step6()
+	{
 		j = k;
-		if (b[k] == 'e') {
+		if (b[k] == 'e')
+		{
 			int a = m();
 			if (a > 1 || a == 1 && !cvc(k - 1))
 				k--;
@@ -544,14 +594,13 @@ class Stemmer {
 	}
 
 	/**
-	 * Stem the word placed into the Stemmer buffer through calls to add().
-	 * Returns true if the stemming process resulted in a word different from
-	 * the input. You can retrieve the result with
-	 * getResultLength()/getResultBuffer() or toString().
+	 * Stem the word placed into the Stemmer buffer through calls to add(). Returns true if the stemming process resulted in a word different from the input. You can retrieve the result with getResultLength()/getResultBuffer() or toString().
 	 */
-	public void stem() {
+	public void stem()
+	{
 		k = i - 1;
-		if (k > 1) {
+		if (k > 1)
+		{
 			step1();
 			step2();
 			step3();
@@ -562,42 +611,78 @@ class Stemmer {
 		i_end = k + 1;
 		i = 0;
 	}
-	
+
 	/**
 	 * Méthode pour stemmer un mot et l'ajouter à la liste stemmerFile.
-	 * @param word Mot à stemmer.
+	 * 
+	 * @param word
+	 *            Mot à stemmer.
 	 */
-	public void stemmerWord(String word) {
+	public void stemmerWord(String word, String fileName)
+	{
 		char[] w = word.toCharArray();
 		int j = 0;
-		for (int i = 0; i < w.length; i++) {
-			if (Character.isLetter((char) w[i])) {
+		for (int i = 0; i < w.length; i++)
+		{
+			if (Character.isLetter((char) w[i]))
+			{
 				w[i] = Character.toLowerCase((char) w[i]);
 				w[j] = (char) w[i];
-				if (j < 500) {
+				if (j < 500)
+				{
 					j++;
 				}
 			}
-			if (i == w.length - 1) {
+			if (i == w.length - 1)
+			{
 				/* to test add(char ch) */
-				for (int c = 0; c < j; c++) {
+				for (int c = 0; c < j; c++)
+				{
 					this.add(w[c]);
 				}
 				this.stem();
-				String wordStemmer = new String(this.getResultBuffer(), 0,
-						this.getResultLength());
-				if (!(wordStemmer.equals(""))) {
+				String wordStemmer = new String(this.getResultBuffer(), 0, this.getResultLength());
+				if (!(wordStemmer.equals("")))
+				{
 					stemmerFile.add(wordStemmer);
+					if (!diction.containsKey(wordStemmer))
+					{
+						diction.put(wordStemmer, new HashMap<String, Integer>());
+						diction.get(wordStemmer).put(fileName, 1);
+					} else
+					{
+						if (!diction.get(wordStemmer).containsKey(fileName))
+						{
+							diction.get(wordStemmer).put(fileName, 1);
+						} else
+						{
+							diction.get(wordStemmer).put(fileName, diction.get(wordStemmer).get(fileName) + 1);
+						}
+					}
+					//System.out.println(Stemmer.getDiction());
 				}
 			}
 		}
 	}
 
-	public ArrayList<String> getStemmerFile() {
+	public ArrayList<String> getStemmerFile()
+	{
 		return stemmerFile;
 	}
-	
-	public void clearStemmerFile() {
+
+	public void clearStemmerFile()
+	{
 		stemmerFile.clear();
 	}
+
+	public static HashMap<String, HashMap<String, Integer>> getDiction()
+	{
+		return diction;
+	}
+
+	public static void setDiction(HashMap<String, HashMap<String, Integer>> diction)
+	{
+		Stemmer.diction = diction;
+	}
+
 }
