@@ -10,6 +10,7 @@ public class ApDocument
 	private String byLine;
 	private String dateLine;
 	private String text;
+	private String note;
 
 	public ApDocument()
 	{
@@ -21,9 +22,10 @@ public class ApDocument
 		this.byLine = "";
 		this.dateLine = "";
 		this.text = "";
+		this.note = "";
 	}
 
-	public ApDocument(String docNo, String fileId, String first, String second, String head, String byLine, String dateLine, String text)
+	public ApDocument(String docNo, String fileId, String first, String second, String head, String byLine, String dateLine, String text, String note)
 	{
 		this.docNo = docNo;
 		this.fileId = fileId;
@@ -33,6 +35,7 @@ public class ApDocument
 		this.byLine = byLine;
 		this.dateLine = dateLine;
 		this.text = text;
+		this.note = note;
 	}
 
 	public void addDocNo(String docNo)
@@ -73,6 +76,11 @@ public class ApDocument
 	public void addText(String text)
 	{
 		this.text += text + " ";
+	}
+
+	public void addNote(String note)
+	{
+		this.note += note + " ";
 	}
 
 	public String getDocNo()
@@ -155,4 +163,19 @@ public class ApDocument
 		this.text = text;
 	}
 
+	public String getNote()
+	{
+		return note;
+	}
+
+	public void setNote(String note)
+	{
+		this.note = note;
+	}
+
+	@Override
+	public String toString()
+	{
+		return this.docNo + "\n" + this.fileId + "\n" + this.first + "\n" + this.second + "\n" + this.head + "\n" + this.byLine + "\n" + this.dateLine + "\n" + this.text + "\n" + this.note + "\n";
+	}
 }
