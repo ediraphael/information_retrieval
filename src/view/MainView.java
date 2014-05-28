@@ -90,7 +90,7 @@ public class MainView
 	private void initialize() 
 	{
 		frmEzSearch = new JFrame();
-		frmEzSearch.setTitle("EZ - Search");
+		frmEzSearch.setTitle("EZ-Google");
 		frmEzSearch.setBounds(100, 100, 600, 400);
 		frmEzSearch.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmEzSearch.getContentPane().setLayout(new BorderLayout(0, 0));
@@ -109,7 +109,7 @@ public class MainView
 		panAction.add(panBtn, BorderLayout.EAST);
 		panBtn.setLayout(new BorderLayout(0, 0));
 
-		btnSearch = new JButton("Rechercher");
+		btnSearch = new JButton("Research");
 		btnSearch.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
