@@ -34,7 +34,6 @@ package model;
 
  */
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -50,13 +49,11 @@ class Stemmer
 	i_end, /* offset to end of stemmed word */
 	j, k;
 	private static final int INC = 50;
-	private static ArrayList<String> stemmerFile;
 	private static HashMap<String, HashMap<String, Integer>> diction;
 
 	/* unit of size whereby b is increased */
 	public Stemmer()
 	{
-		stemmerFile = new ArrayList<String>();
 		diction = new HashMap<String, HashMap<String, Integer>>();
 		b = new char[INC];
 		i = 0;
@@ -644,7 +641,6 @@ class Stemmer
 				String wordStemmer = new String(this.getResultBuffer(), 0, this.getResultLength());
 				if (!(wordStemmer.equals("")))
 				{
-					stemmerFile.add(wordStemmer);
 					if (!diction.containsKey(wordStemmer))
 					{
 						diction.put(wordStemmer, new HashMap<String, Integer>());
@@ -659,20 +655,10 @@ class Stemmer
 							diction.get(wordStemmer).put(fileName, diction.get(wordStemmer).get(fileName) + 1);
 						}
 					}
-					//System.out.println(Stemmer.getDiction());
+					// System.out.println(Stemmer.getDiction());
 				}
 			}
 		}
-	}
-
-	public ArrayList<String> getStemmerFile()
-	{
-		return stemmerFile;
-	}
-
-	public void clearStemmerFile()
-	{
-		stemmerFile.clear();
 	}
 
 	public static HashMap<String, HashMap<String, Integer>> getDiction()
