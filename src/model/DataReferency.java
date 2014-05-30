@@ -33,6 +33,6 @@ public class DataReferency
 	@Override
 	public String toString()
 	{
-		return "occurency=" + occurency;
+		return "occurency=" + occurency + " position :" + wordPositions;
 	}
 }

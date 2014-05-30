@@ -135,7 +135,7 @@ public class ParserAP
 						while (tokens.hasMoreElements())
 						{
 							String token = tokens.nextToken();
-							stemmer.stemmerWord(token, apDocument.getDocNo(), 2, wordPosition);
+							stemmer.stemmerWord(token, apDocument.getDocNo(), 1, wordPosition);
 							wordPosition++;
 						}
 
