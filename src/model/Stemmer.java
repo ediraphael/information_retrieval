@@ -34,7 +34,6 @@ package model;
 
  */
 
-import java.util.HashMap;
 
 /**
  * Stemmer, implementing the Porter Stemming Algorithm
@@ -614,7 +613,7 @@ class Stemmer
 	 * @param word
 	 *            Mot à stemmer.
 	 */
-	public void stemmerWord(String word, String fileName)
+	public void stemmerWord(String word, String fileName, int ratio)
 	{
 		char[] w = word.toCharArray();
 		int j = 0;
@@ -640,21 +639,7 @@ class Stemmer
 				String wordStemmer = new String(this.getResultBuffer(), 0, this.getResultLength());
 				if (!(wordStemmer.equals("")))
 				{
-					if (!Dictionary.getElements().containsKey(wordStemmer))
-					{
-						Dictionary.getElements().put(wordStemmer, new HashMap<String, Integer>());
-						Dictionary.getElements().get(wordStemmer).put(fileName, 1);
-					} else
-					{
-						if (!Dictionary.getElements().get(wordStemmer).containsKey(fileName))
-						{
-							Dictionary.getElements().get(wordStemmer).put(fileName, 1);
-						} else
-						{
-							Dictionary.getElements().get(wordStemmer).put(fileName, Dictionary.getElements().get(wordStemmer).get(fileName) + 1);
-						}
-					}
-					// System.out.println(Stemmer.getDiction());
+					Dictionary.addWord(wordStemmer, fileName, ratio);
 				}
 			}
 		}

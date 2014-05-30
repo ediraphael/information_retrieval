@@ -9,6 +9,7 @@ import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -40,7 +41,7 @@ public class ParserAP
 					while (tokens.hasMoreElements())
 					{
 						String token = tokens.nextToken();
-						stemmer.stemmerWord(token, line.split(" ")[1]);
+						stemmer.stemmerWord(token, line.split(" ")[1], 1);
 					}
 				}
 			}
@@ -131,7 +132,7 @@ public class ParserAP
 						while (tokens.hasMoreElements())
 						{
 							String token = tokens.nextToken();
-							stemmer.stemmerWord(token, apDocument.getDocNo());
+							stemmer.stemmerWord(token, apDocument.getDocNo(), 1);
 						}
 
 						i++;
@@ -248,10 +249,15 @@ public class ParserAP
 	{
 		long start = System.currentTimeMillis();
 		ParserAP parser = new ParserAP();
-		//parser.loadAllApDocumentByDocList();
+		// parser.loadAllApDocumentByDocList();
 		parser.loadAllApDocumentByFolder();
 		long end = System.currentTimeMillis();
-		System.out.println("Temps de chargement : " + ((end - start)/1000.0)+"s");
+		System.out.println("Temps de chargement : " + ((end - start) / 1000.0) + "s");
 		System.out.println(Dictionary.getElements().size());
+		Set<String> keys = Dictionary.getElements().keySet();
+		for (String string : keys)
+		{
+			System.out.println(Dictionary.getElements().get(string));
+		}
 	}
 }
