@@ -9,7 +9,6 @@ import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -249,23 +248,10 @@ public class ParserAP
 	{
 		long start = System.currentTimeMillis();
 		ParserAP parser = new ParserAP();
-		// parser.loadAllApDocumentByDocList();
+		//parser.loadAllApDocumentByDocList();
 		parser.loadAllApDocumentByFolder();
 		long end = System.currentTimeMillis();
 		System.out.println("Temps de chargement : " + ((end - start)/1000.0)+"s");
-		System.out.println(Stemmer.getDiction().size());
-		Set<String> key = Stemmer.getDiction().keySet();
-		for (String string : key)
-		{
-			System.out.println(string + " -> " + Stemmer.getDiction().get(string));
-			try
-			{
-				Thread.sleep(100);
-			} catch (InterruptedException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		System.out.println(Dictionary.getElements().size());
 	}
 }

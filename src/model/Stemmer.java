@@ -49,12 +49,11 @@ class Stemmer
 	i_end, /* offset to end of stemmed word */
 	j, k;
 	private static final int INC = 50;
-	private static HashMap<String, HashMap<String, Integer>> diction;
 
 	/* unit of size whereby b is increased */
 	public Stemmer()
 	{
-		diction = new HashMap<String, HashMap<String, Integer>>();
+		Dictionary.reset();
 		b = new char[INC];
 		i = 0;
 		i_end = 0;
@@ -641,18 +640,18 @@ class Stemmer
 				String wordStemmer = new String(this.getResultBuffer(), 0, this.getResultLength());
 				if (!(wordStemmer.equals("")))
 				{
-					if (!diction.containsKey(wordStemmer))
+					if (!Dictionary.getElements().containsKey(wordStemmer))
 					{
-						diction.put(wordStemmer, new HashMap<String, Integer>());
-						diction.get(wordStemmer).put(fileName, 1);
+						Dictionary.getElements().put(wordStemmer, new HashMap<String, Integer>());
+						Dictionary.getElements().get(wordStemmer).put(fileName, 1);
 					} else
 					{
-						if (!diction.get(wordStemmer).containsKey(fileName))
+						if (!Dictionary.getElements().get(wordStemmer).containsKey(fileName))
 						{
-							diction.get(wordStemmer).put(fileName, 1);
+							Dictionary.getElements().get(wordStemmer).put(fileName, 1);
 						} else
 						{
-							diction.get(wordStemmer).put(fileName, diction.get(wordStemmer).get(fileName) + 1);
+							Dictionary.getElements().get(wordStemmer).put(fileName, Dictionary.getElements().get(wordStemmer).get(fileName) + 1);
 						}
 					}
 					// System.out.println(Stemmer.getDiction());
@@ -660,15 +659,4 @@ class Stemmer
 			}
 		}
 	}
-
-	public static HashMap<String, HashMap<String, Integer>> getDiction()
-	{
-		return diction;
-	}
-
-	public static void setDiction(HashMap<String, HashMap<String, Integer>> diction)
-	{
-		Stemmer.diction = diction;
-	}
-
 }
