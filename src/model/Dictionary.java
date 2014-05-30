@@ -11,20 +11,21 @@ public class Dictionary
 		elements = new HashMap<String, HashMap<String, DataReferency>>();
 	}
 
-	public static void addWord(String word, String docID, int ratio)
+	public static void addWord(String word, String docID, int ratio, int wordPosition)
 	{
 		if (!Dictionary.getElements().containsKey(word))
 		{
 			Dictionary.getElements().put(word, new HashMap<String, DataReferency>());
-			Dictionary.getElements().get(word).put(docID, new DataReferency(1 * ratio));
+			Dictionary.getElements().get(word).put(docID, new DataReferency(1 * ratio, wordPosition));
 		} else
 		{
 			if (!Dictionary.getElements().get(word).containsKey(docID))
 			{
-				Dictionary.getElements().get(word).put(docID, new DataReferency(1 * ratio));
+				Dictionary.getElements().get(word).put(docID, new DataReferency(1 * ratio, wordPosition));
 			} else
 			{
 				Dictionary.getElements().get(word).get(docID).occurency = Dictionary.getElements().get(word).get(docID).occurency + 1 * ratio;
+				Dictionary.getElements().get(word).get(docID).wordPositions.add(wordPosition);
 			}
 		}
 	}

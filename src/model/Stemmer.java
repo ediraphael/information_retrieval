@@ -34,7 +34,6 @@ package model;
 
  */
 
-
 /**
  * Stemmer, implementing the Porter Stemming Algorithm
  * 
@@ -613,7 +612,7 @@ class Stemmer
 	 * @param word
 	 *            Mot à stemmer.
 	 */
-	public void stemmerWord(String word, String fileName, int ratio)
+	public void stemmerWord(String word, String fileName, int ratio, int wordPosition)
 	{
 		char[] w = word.toCharArray();
 		int j = 0;
@@ -639,7 +638,7 @@ class Stemmer
 				String wordStemmer = new String(this.getResultBuffer(), 0, this.getResultLength());
 				if (!(wordStemmer.equals("")))
 				{
-					Dictionary.addWord(wordStemmer, fileName, ratio);
+					Dictionary.addWord(wordStemmer, fileName, ratio, wordPosition);
 				}
 			}
 		}

@@ -33,6 +33,7 @@ public class ParserAP
 			String line = null;
 			while ((line = inputF.readLine()) != null)
 			{
+				int wordPosition = 1;
 				ApDocument documentTest = this.loadApDocument(line.split(" ")[1]);
 				if (documentTest != null)
 				{
@@ -41,7 +42,8 @@ public class ParserAP
 					while (tokens.hasMoreElements())
 					{
 						String token = tokens.nextToken();
-						stemmer.stemmerWord(token, line.split(" ")[1], 1);
+						stemmer.stemmerWord(token, line.split(" ")[1], 1, wordPosition);
+						wordPosition++;
 					}
 				}
 			}
@@ -86,6 +88,7 @@ public class ParserAP
 					int i = 0;
 					while ((node = docsList.item(i)) != null)
 					{
+						int wordPosition = 1;
 						apDocument = new ApDocument();
 						NodeList nodeElements = node.getChildNodes();
 						Node nodeElement = null;
@@ -132,7 +135,8 @@ public class ParserAP
 						while (tokens.hasMoreElements())
 						{
 							String token = tokens.nextToken();
-							stemmer.stemmerWord(token, apDocument.getDocNo(), 1);
+							stemmer.stemmerWord(token, apDocument.getDocNo(), 2, wordPosition);
+							wordPosition++;
 						}
 
 						i++;
