@@ -187,7 +187,15 @@ public class ParserAP
 		Set<String> keys = Dictionary.getElements().keySet();
 		for (String string : keys)
 		{
-			System.out.println(Dictionary.getElements().get(string));
+			System.out.println(string + "->" + Dictionary.getElements().get(string));
+			try
+			{
+				Thread.sleep(1000);
+			} catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
