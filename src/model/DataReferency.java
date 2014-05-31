@@ -5,18 +5,18 @@ import java.util.ArrayList;
 public class DataReferency
 {
 	public int occurency;
-	public ArrayList<Integer> wordPositions;
+	public ArrayList<WordPosition> wordPositions;
 
-	public DataReferency(int occurency, ArrayList<Integer> wordPositions)
+	public DataReferency(int occurency, ArrayList<WordPosition> wordPositions)
 	{
 		this.occurency = occurency;
 		this.wordPositions = wordPositions;
 	}
 
-	public DataReferency(int occurency, int wordPosition)
+	public DataReferency(int occurency, WordPosition wordPosition)
 	{
 		this.occurency = occurency;
-		this.wordPositions = new ArrayList<Integer>();
+		this.wordPositions = new ArrayList<WordPosition>();
 		this.wordPositions.add(wordPosition);
 	}
 

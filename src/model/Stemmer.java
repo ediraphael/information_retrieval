@@ -51,7 +51,7 @@ class Stemmer
 	/* unit of size whereby b is increased */
 	public Stemmer()
 	{
-		Dictionary.reset();
+		//Dictionary.reset();
 		b = new char[INC];
 		i = 0;
 		i_end = 0;
@@ -612,7 +612,7 @@ class Stemmer
 	 * @param word
 	 *            Mot à stemmer.
 	 */
-	public void stemmerWord(String word, String fileName, int ratio, int wordPosition)
+	public void stemmerWord(String word, String fileName, int ratio, WordPosition wordPosition)
 	{
 		char[] w = word.toCharArray();
 		int j = 0;

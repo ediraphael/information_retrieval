@@ -11,7 +11,7 @@ public class Dictionary
 		elements = new HashMap<String, HashMap<String, DataReferency>>();
 	}
 
-	public static void addWord(String word, String docID, int ratio, int wordPosition)
+	public static void addWord(String word, String docID, int ratio, WordPosition wordPosition)
 	{
 		if (!Dictionary.getElements().containsKey(word))
 		{

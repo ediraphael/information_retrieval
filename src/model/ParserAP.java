@@ -9,7 +9,6 @@ import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -29,23 +28,14 @@ public class ParserAP
 	{
 		try
 		{
-			Stemmer stemmer = new Stemmer();
 			BufferedReader inputF = new BufferedReader(new FileReader("./bin/document/ap/doclist.txt"));
 			String line = null;
 			while ((line = inputF.readLine()) != null)
 			{
-				int wordPosition = 1;
 				ApDocument documentTest = this.loadApDocument(line.split(" ")[1]);
 				if (documentTest != null)
 				{
-					StringTokenizer tokens = new StringTokenizer(documentTest.getText(), " ''``;,.\n\t\r");
-
-					while (tokens.hasMoreElements())
-					{
-						String token = tokens.nextToken();
-						stemmer.stemmerWord(token, line.split(" ")[1], 1, wordPosition);
-						wordPosition++;
-					}
+					Balise.stemmerApDocument(documentTest);
 				}
 			}
 			inputF.close();
@@ -57,7 +47,7 @@ public class ParserAP
 
 	public void loadAllApDocumentByFolder()
 	{
-		Stemmer stemmer = new Stemmer();
+		Dictionary.reset();
 		File repertoire = new File("./bin/document/ap/");
 		File[] fichiesrTxt = repertoire.listFiles(new FilenameFilter()
 		{
@@ -89,7 +79,6 @@ public class ParserAP
 					int i = 0;
 					while ((node = docsList.item(i)) != null)
 					{
-						int wordPosition = 1;
 						apDocument = new ApDocument();
 						NodeList nodeElements = node.getChildNodes();
 						Node nodeElement = null;
@@ -102,15 +91,7 @@ public class ParserAP
 							}
 							j++;
 						}
-
-						StringTokenizer tokens = new StringTokenizer(apDocument.getText(), " ''``;,.\n\t\r");
-
-						while (tokens.hasMoreElements())
-						{
-							String token = tokens.nextToken();
-							stemmer.stemmerWord(token, apDocument.getDocNo(), 1, wordPosition);
-							wordPosition++;
-						}
+						Balise.stemmerApDocument(apDocument);
 
 						i++;
 					}

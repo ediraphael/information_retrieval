@@ -5,7 +5,7 @@ public class WordPosition
 	private Balise balise;
 	private int position;
 
-	private WordPosition(Balise balise, int position)
+	public WordPosition(Balise balise, int position)
 	{
 		this.balise = balise;
 		this.position = position;
