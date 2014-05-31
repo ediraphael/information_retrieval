@@ -31,4 +31,10 @@ public class WordPosition
 		this.position = position;
 	}
 
+	@Override
+	public String toString()
+	{
+		return balise.getRepresentation() + ":" + position;
+	}
+
 }

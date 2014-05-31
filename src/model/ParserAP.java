@@ -9,7 +9,7 @@ import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -184,10 +184,10 @@ public class ParserAP
 		long end = System.currentTimeMillis();
 		System.out.println("Temps de chargement : " + ((end - start) / 1000.0) + "s");
 		System.out.println(Dictionary.getElements().size());
-		// Set<String> keys = Dictionary.getElements().keySet();
-		// for (String string : keys)
-		// {
-		// System.out.println(Dictionary.getElements().get(string));
-		// }
+		Set<String> keys = Dictionary.getElements().keySet();
+		for (String string : keys)
+		{
+			System.out.println(Dictionary.getElements().get(string));
+		}
 	}
 }

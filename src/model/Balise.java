@@ -213,7 +213,7 @@ public enum Balise
 
 	public void stemmerApDocumentPartWord(Stemmer stemmer, String token, String docNo, int wordPosition)
 	{
-		System.out.println("ici");
+
 	}
 
 	public void stemmerApDocumentPart(Stemmer stemmer, String docNo, String textContent)
