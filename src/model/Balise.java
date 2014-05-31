@@ -2,19 +2,84 @@ package model;
 
 public enum Balise
 {
-	DOCNO("DOCNO"),
-	FILEID("FILEID"),
-	FIRST("FIRST"),
-	SECOND("SECOND"),
-	HEAD("HEAD"),
-	BYLINE("BYLINE"),
-	DATELINE("DATELINE"),
-	TEXT("TEXT"),
-	NOTE("NOTE");
+	DOCNO("DOCNO")
+	{
+		public void initApDocument(ApDocument apDocument, String textContent)
+		{
+			apDocument.addDocNo(textContent);
+		}
+	},
+	FILEID("FILEID")
+	{
+		public void initApDocument(ApDocument apDocument, String textContent)
+		{
+			apDocument.addFileId(textContent);
+		}
+	},
+	FIRST("FIRST")
+	{
+		public void initApDocument(ApDocument apDocument, String textContent)
+		{
+			apDocument.addFirst(textContent);
+		}
+	},
+	SECOND("SECOND")
+	{
+		public void initApDocument(ApDocument apDocument, String textContent)
+		{
+			apDocument.addSecond(textContent);
+		}
+	},
+	HEAD("HEAD")
+	{
+		public void initApDocument(ApDocument apDocument, String textContent)
+		{
+			apDocument.addHead(textContent);
+		}
+	},
+	BYLINE("BYLINE")
+	{
+		public void initApDocument(ApDocument apDocument, String textContent)
+		{
+			apDocument.addByLine(textContent);
+		}
+	},
+	DATELINE("DATELINE")
+	{
+		public void initApDocument(ApDocument apDocument, String textContent)
+		{
+			apDocument.addDateLine(textContent);
+		}
+	},
+	TEXT("TEXT")
+	{
+		public void initApDocument(ApDocument apDocument, String textContent)
+		{
+			apDocument.addText(textContent);
+		}
+	},
+	NOTE("NOTE")
+	{
+		public void initApDocument(ApDocument apDocument, String textContent)
+		{
+			apDocument.addNote(textContent);
+		}
+	},
+	UNK("UNK")
+	{
+		public void initApDocument(ApDocument apDocument, String textContent)
+		{
+			apDocument.addNote(textContent);
+		}
+	},
+	INCONU("#TEXT")
+	{
+
+	};
 
 	private String representation;
 
-	public Balise getBaliseByRepresentation(String representation)
+	public static Balise getBaliseByRepresentation(String representation)
 	{
 		for (Balise balise : Balise.values())
 		{
@@ -24,6 +89,11 @@ public enum Balise
 			}
 		}
 		return null;
+	}
+
+	public void initApDocument(ApDocument apDocument, String textContent)
+	{
+
 	}
 
 	private Balise(String representation)

@@ -19,6 +19,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -95,37 +96,9 @@ public class ParserAP
 						int j = 0;
 						while ((nodeElement = nodeElements.item(j)) != null)
 						{
-							switch (nodeElement.getNodeName().toUpperCase().trim())
+							if (!(nodeElement instanceof Text))
 							{
-							case "DOCNO":
-								apDocument.addDocNo(nodeElement.getTextContent().trim());
-								break;
-							case "FILEID":
-								apDocument.addFileId(nodeElement.getTextContent().trim());
-								break;
-							case "FIRST":
-								apDocument.addFirst(nodeElement.getTextContent().trim());
-								break;
-							case "SECOND":
-								apDocument.addSecond(nodeElement.getTextContent().trim());
-								break;
-							case "HEAD":
-								apDocument.addHead(nodeElement.getTextContent().trim());
-								break;
-							case "BYLINE":
-								apDocument.addByLine(nodeElement.getTextContent().trim());
-								break;
-							case "DATELINE":
-								apDocument.addDateLine(nodeElement.getTextContent().trim());
-								break;
-							case "TEXT":
-								apDocument.addText(nodeElement.getTextContent().trim());
-								break;
-							case "NOTE":
-								apDocument.addNote(nodeElement.getTextContent().trim());
-								break;
-							default:
-								break;
+								Balise.valueOf(nodeElement.getNodeName().toUpperCase().trim()).initApDocument(apDocument, nodeElement.getTextContent().trim());
 							}
 							j++;
 						}
@@ -183,38 +156,10 @@ public class ParserAP
 						{
 							registerDocument = true;
 							apDocument = new ApDocument();
-							apDocument.addDocNo(nodeElement.getTextContent().trim());
+							Balise.getBaliseByRepresentation(nodeElement.getTextContent().trim()).initApDocument(apDocument, nodeElement.getTextContent().trim());
 						} else if (registerDocument)
 						{
-							switch (nodeElement.getNodeName().toUpperCase().trim())
-							{
-							case "FILEID":
-								apDocument.addFileId(nodeElement.getTextContent().trim());
-								break;
-							case "FIRST":
-								apDocument.addFirst(nodeElement.getTextContent().trim());
-								break;
-							case "SECOND":
-								apDocument.addSecond(nodeElement.getTextContent().trim());
-								break;
-							case "HEAD":
-								apDocument.addHead(nodeElement.getTextContent().trim());
-								break;
-							case "BYLINE":
-								apDocument.addByLine(nodeElement.getTextContent().trim());
-								break;
-							case "DATELINE":
-								apDocument.addDateLine(nodeElement.getTextContent().trim());
-								break;
-							case "TEXT":
-								apDocument.addText(nodeElement.getTextContent().trim());
-								break;
-							case "NOTE":
-								apDocument.addNote(nodeElement.getTextContent().trim());
-								break;
-							default:
-								break;
-							}
+							Balise.getBaliseByRepresentation(nodeElement.getTextContent().trim()).initApDocument(apDocument, nodeElement.getTextContent().trim());
 						}
 						j++;
 					}
@@ -258,10 +203,10 @@ public class ParserAP
 		long end = System.currentTimeMillis();
 		System.out.println("Temps de chargement : " + ((end - start) / 1000.0) + "s");
 		System.out.println(Dictionary.getElements().size());
-		Set<String> keys = Dictionary.getElements().keySet();
-		for (String string : keys)
-		{
-			System.out.println(Dictionary.getElements().get(string));
-		}
+		// Set<String> keys = Dictionary.getElements().keySet();
+		// for (String string : keys)
+		// {
+		// System.out.println(Dictionary.getElements().get(string));
+		// }
 	}
 }

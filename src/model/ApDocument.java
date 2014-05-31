@@ -11,6 +11,7 @@ public class ApDocument
 	private String dateLine;
 	private String text;
 	private String note;
+	private String unk;
 
 	public ApDocument()
 	{
@@ -23,9 +24,10 @@ public class ApDocument
 		this.dateLine = "";
 		this.text = "";
 		this.note = "";
+		this.unk = "";
 	}
 
-	public ApDocument(String docNo, String fileId, String first, String second, String head, String byLine, String dateLine, String text, String note)
+	public ApDocument(String docNo, String fileId, String first, String second, String head, String byLine, String dateLine, String text, String note, String unk)
 	{
 		this.docNo = docNo;
 		this.fileId = fileId;
@@ -36,6 +38,7 @@ public class ApDocument
 		this.dateLine = dateLine;
 		this.text = text;
 		this.note = note;
+		this.unk = unk;
 	}
 
 	public void addDocNo(String docNo)
@@ -81,6 +84,11 @@ public class ApDocument
 	public void addNote(String note)
 	{
 		this.note += note + " ";
+	}
+
+	public void addUnk(String unk)
+	{
+		this.unk += unk + " ";
 	}
 
 	public String getDocNo()
@@ -173,9 +181,19 @@ public class ApDocument
 		this.note = note;
 	}
 
+	public String getUnk()
+	{
+		return unk;
+	}
+
+	public void setUnk(String unk)
+	{
+		this.unk = unk;
+	}
+
 	@Override
 	public String toString()
 	{
-		return this.docNo + "\n" + this.fileId + "\n" + this.first + "\n" + this.second + "\n" + this.head + "\n" + this.byLine + "\n" + this.dateLine + "\n" + this.text + "\n" + this.note + "\n";
+		return this.docNo + "\n" + this.fileId + "\n" + this.first + "\n" + this.second + "\n" + this.head + "\n" + this.byLine + "\n" + this.unk + "\n" + this.dateLine + "\n" + this.text + "\n" + this.note + "\n";
 	}
 }
