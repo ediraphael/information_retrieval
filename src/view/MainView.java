@@ -94,6 +94,7 @@ public class MainView
 		frmEzSearch.setBounds(100, 100, 600, 400);
 		frmEzSearch.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmEzSearch.getContentPane().setLayout(new BorderLayout(0, 0));
+		
 
 		panAction = new JPanel();
 		panAction.setPreferredSize(new Dimension(10, 50));
@@ -207,6 +208,9 @@ public class MainView
 
 		thirdSeparator = new JSeparator();
 		panSeparatorContainer.add(thirdSeparator, BorderLayout.SOUTH);
+		
+		
+		frmEzSearch.setVisible(true);
 	}
 
 }
