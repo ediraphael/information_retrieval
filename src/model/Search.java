@@ -12,9 +12,9 @@ import java.util.TreeSet;
 public class Search
 {
 	private String query;
-	private HashMap<String, Integer> result;
+	private HashMap<String, Double> result;
 
-	public Search(String query, HashMap<String, Integer> result)
+	public Search(String query, HashMap<String, Double> result)
 	{
 		this.query = query;
 		this.result = result;
@@ -23,7 +23,7 @@ public class Search
 	public Search(String query)
 	{
 		this.query = query;
-		this.result = new HashMap<String, Integer>();
+		this.result = new HashMap<String, Double>();
 	}
 
 	static <K, V extends Comparable<? super V>> SortedSet<Map.Entry<K, V>> entriesSortedByValues(Map<K, V> map)
@@ -57,7 +57,7 @@ public class Search
 	public void execute()
 	{
 		ArrayList<String> stemmerQuerry = stemmerQuery();
-		HashMap<String, Integer> docValue = new HashMap<String, Integer>();
+		HashMap<String, Double> docValue = new HashMap<String, Double>();
 		for (String wordQuerry : stemmerQuerry)
 		{
 			if (Dictionary.getElements().containsKey(wordQuerry))
@@ -68,16 +68,17 @@ public class Search
 				{
 					if (docValue.containsKey(docNo))
 					{
-						docValue.put(docNo, docValue.get(docNo) + wordDictionary.get(docNo).getOccurency());
+						docValue.put(docNo, docValue.get(docNo) + wordDictionary.get(docNo).getWeight());
 					} else
 					{
-						docValue.put(docNo, wordDictionary.get(docNo).getOccurency());
+						docValue.put(docNo, wordDictionary.get(docNo).getWeight());
 					}
 				}
 			}
 		}
-
+		this.result = docValue;
 		System.out.println(entriesSortedByReverseValues(docValue));
+		System.out.println(this.getListResultOrdered());
 		System.out.println(docValue.size());
 	}
 
@@ -94,6 +95,16 @@ public class Search
 		return stemmerQuerry;
 	}
 
+	public ArrayList<String> getListResultOrdered()
+	{
+		ArrayList<String> returnList = new ArrayList<String>();
+		for (Map.Entry<String, Double> entry : entriesSortedByReverseValues(this.result))
+		{
+			returnList.add(entry.getKey());
+		}
+		return returnList;
+	}
+
 	public String getQuery()
 	{
 		return query;
@@ -104,12 +115,12 @@ public class Search
 		this.query = query;
 	}
 
-	public HashMap<String, Integer> getResult()
+	public HashMap<String, Double> getResult()
 	{
 		return result;
 	}
 
-	public void setResult(HashMap<String, Integer> result)
+	public void setResult(HashMap<String, Double> result)
 	{
 		this.result = result;
 	}
