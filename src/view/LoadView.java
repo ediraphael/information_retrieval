@@ -15,6 +15,8 @@ import model.ParserAP;
 
 import java.awt.Dimension;
 import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.Color;
 
 public class LoadView  
 {
@@ -32,9 +34,11 @@ public class LoadView
     private JProgressBar progressBarLoad;
     private ParserAP parser = new ParserAP();
     private JPanel panLabelLoad;
-    private Component verticalStrut;
-    private JLabel labelLoading;
+    private Component vsPanLoadLowSetting;
+    private JLabel labelLoad;
     private JLabel labelFileInProgress;
+    private JPanel panContainerLabelLoad;
+    private JPanel panTitle;
 	
     
     public class LoadThread extends Thread
@@ -106,15 +110,28 @@ public class LoadView
 		panLabel.add(panLabelLoad, BorderLayout.SOUTH);
 		panLabelLoad.setLayout(new BorderLayout(0, 0));
 		
-		verticalStrut = Box.createVerticalStrut(20);
-		verticalStrut.setPreferredSize(new Dimension(0, 5));
-		panLabelLoad.add(verticalStrut, BorderLayout.SOUTH);
+		vsPanLoadLowSetting = Box.createVerticalStrut(20);
+		vsPanLoadLowSetting.setPreferredSize(new Dimension(0, 3));
+		panLabelLoad.add(vsPanLoadLowSetting, BorderLayout.SOUTH);
 		
-		labelLoading = new JLabel("Chargement : ");
-		panLabelLoad.add(labelLoading, BorderLayout.WEST);
-		
-		labelFileInProgress = new JLabel("hum");
+		labelFileInProgress = new JLabel("");
+		labelFileInProgress.setForeground(new Color(0, 0, 128));
+		labelFileInProgress.setFont(new Font("Dialog", Font.PLAIN, 12));
 		panLabelLoad.add(labelFileInProgress, BorderLayout.CENTER);
+		
+		panContainerLabelLoad = new JPanel();
+		panContainerLabelLoad.setPreferredSize(new Dimension(260, 10));
+		panLabelLoad.add(panContainerLabelLoad, BorderLayout.WEST);
+		panContainerLabelLoad.setLayout(new BorderLayout(0, 0));
+		
+		labelLoad = new JLabel("Chargement : ");
+		panContainerLabelLoad.add(labelLoad, BorderLayout.EAST);
+		labelLoad.setForeground(new Color(0, 0, 128));
+		labelLoad.setFont(new Font("Dialog", Font.PLAIN, 12));
+		
+		panTitle = new JPanel();
+		panLabel.add(panTitle, BorderLayout.CENTER);
+		panTitle.setLayout(new BorderLayout(0, 0));
 		
 		hsMainSettingLeft = Box.createHorizontalStrut(20);
 		mainPan.add(hsMainSettingLeft, BorderLayout.WEST);
@@ -130,6 +147,8 @@ public class LoadView
 		panProgressBar.setLayout(new BorderLayout(0, 0));
 		
 		progressBarLoad = new JProgressBar();
+		progressBarLoad.setStringPainted(true);
+		progressBarLoad.setToolTipText("");
 		panProgressBar.add(progressBarLoad, BorderLayout.NORTH);
 		
 		LoadThread thread = new LoadThread();
