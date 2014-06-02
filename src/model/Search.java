@@ -14,6 +14,12 @@ public class Search
 		this.result = result;
 	}
 
+	public Search(String query)
+	{
+		this.query = query;
+		this.result = new ArrayList<String>();
+	}
+
 	public ArrayList<String> stemmerQuery()
 	{
 		Stemmer stemmer = new Stemmer();

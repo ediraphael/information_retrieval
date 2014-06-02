@@ -186,9 +186,9 @@ public class ParserAP
 		System.out.println("Temps de chargement : " + ((end - start) / 1000.0) + "s");
 		System.out.println(Dictionary.getElements().size());
 
-		System.out.println(stemmer.stemmerWord("thinking"));
-		System.out.println(Dictionary.getElements().get(stemmer.stemmerWord("thinking")));
-//		Set<String> keys = Dictionary.getElements().keySet();
+		Search search = new Search("Document will discuss allegations, or measures being taken against, corrupt public officials of any governmental jurisdiction worldwide.");
+		System.out.println(search.stemmerQuery());
+		//		Set<String> keys = Dictionary.getElements().keySet();
 //		for (String string : keys)
 //		{
 //			System.out.println(string + "->" + Dictionary.getElements().get(string));
