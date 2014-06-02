@@ -1,21 +1,30 @@
 package view;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
+
 import java.awt.BorderLayout;
+
 import javax.swing.JPanel;
+
 import java.awt.Dimension;
 import java.awt.Component;
+
 import javax.swing.Box;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
+
+import model.Search;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JList;
 
 public class MainView 
 {
@@ -51,31 +60,10 @@ public class MainView
 	private JButton btnSearch;
 	private JTextField textFieldQuery;
 	private JTextArea textAreaResult;
+	private JPanel panResultContainer;
+	private JList list;
 
 	
-	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args)
-	{
-		EventQueue.invokeLater(new Runnable() 
-		{
-			public void run() 
-			{
-				try 
-				{
-					MainView window = new MainView();
-					window.frmEzSearch.setVisible(true);
-				} 
-				catch (Exception e) 
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the application.
 	 */
@@ -91,7 +79,7 @@ public class MainView
 	{
 		frmEzSearch = new JFrame();
 		frmEzSearch.setTitle("EZ-Google");
-		frmEzSearch.setBounds(100, 100, 600, 400);
+		frmEzSearch.setBounds(100, 100, 600, 420);
 		frmEzSearch.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmEzSearch.getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -115,7 +103,19 @@ public class MainView
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				//TODO lancer la recherche
+				textAreaResult.setText("");
+				
+				if(textFieldQuery.getText().isEmpty())
+				{
+					JOptionPane.showMessageDialog(frmEzSearch,"Veuillez entrer une requête",null, JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{
+					Search search = new Search(textFieldQuery.getText());
+					search.execute();
+					textAreaResult.setText(search.getResult().toString());
+					
+				}
 			}
 		});
 		panBtn.add(btnSearch, BorderLayout.CENTER);
@@ -145,7 +145,9 @@ public class MainView
 		panAction.add(panelQueryLabel, BorderLayout.NORTH);
 		panelQueryLabel.setLayout(new BorderLayout(0, 0));
 
-		labelQuery = new JLabel("   Query : ");
+		labelQuery = new JLabel("   Requête : ");
+		labelQuery.setFont(new Font("Dialog", Font.ITALIC, 12));
+		labelQuery.setForeground(new Color(0, 0, 128));
 		panelQueryLabel.add(labelQuery, BorderLayout.NORTH);
 
 		hsActionLeftSetting = Box.createHorizontalStrut(20);
@@ -168,13 +170,6 @@ public class MainView
 		vsResultTopSetting.setPreferredSize(new Dimension(0, 10));
 		vsResultTopSetting.setMinimumSize(new Dimension(0, 10));
 		panResult.add(vsResultTopSetting, BorderLayout.NORTH);
-
-		scrollPanResult = new JScrollPane();
-		panResult.add(scrollPanResult, BorderLayout.CENTER);
-
-		textAreaResult = new JTextArea();
-		textAreaResult.setEditable(false);
-		scrollPanResult.setViewportView(textAreaResult);
 
 		panSeparator = new JPanel();
 		panResult.add(panSeparator, BorderLayout.SOUTH);
@@ -209,6 +204,21 @@ public class MainView
 		thirdSeparator = new JSeparator();
 		panSeparatorContainer.add(thirdSeparator, BorderLayout.SOUTH);
 		
+		panResultContainer = new JPanel();
+		panResult.add(panResultContainer, BorderLayout.CENTER);
+		panResultContainer.setLayout(new BorderLayout(0, 0));
+		
+		list = new JList();
+		list.setPreferredSize(new Dimension(100, 0));
+		panResultContainer.add(list, BorderLayout.WEST);
+		
+
+//		scrollPanResult = new JScrollPane();
+//		panResultContainer.add(scrollPanResult, BorderLayout.CENTER);
+//
+//		textAreaResult = new JTextArea();
+//		textAreaResult.setEditable(false);
+//		scrollPanResult.setViewportView(textAreaResult);
 		
 		frmEzSearch.setVisible(true);
 	}

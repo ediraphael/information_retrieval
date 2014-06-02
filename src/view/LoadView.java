@@ -2,6 +2,7 @@ package view;
 
 import java.awt.EventQueue;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -14,7 +15,9 @@ import javax.swing.JProgressBar;
 import model.ParserAP;
 
 import java.awt.Dimension;
+
 import javax.swing.JLabel;
+
 import java.awt.Font;
 import java.awt.Color;
 
@@ -26,20 +29,29 @@ public class LoadView
 	private JPanel mainPan;
 	private JPanel panLabel;
 	private JPanel panProgressBar;
+	private JPanel panContainerLabelLoad;
+	private JPanel panTitle;
+	private JPanel panImg;
+	private JPanel panLabelLoad;
 	
+	private JLabel labelLoad;
+	private JLabel labelFileInProgress;
+	private JLabel labelImgLoading;
+	private JLabel labelImgMen;
+
 	private Component hsMainSettingLeft;
 	private Component hsMainSettingRight;
 	private Component vsMainSettingLow;
+	private Component vsPanLoadLowSetting;
+	private Component horizontalStrut;
 	
     private JProgressBar progressBarLoad;
     private ParserAP parser = new ParserAP();
-    private JPanel panLabelLoad;
-    private Component vsPanLoadLowSetting;
-    private JLabel labelLoad;
-    private JLabel labelFileInProgress;
-    private JPanel panContainerLabelLoad;
-    private JPanel panTitle;
-	
+
+    private ImageIcon imgMen;
+    private ImageIcon imgLoading ;
+    private JPanel panel;
+    private Component horizontalStrut_1;
     
     public class LoadThread extends Thread
     {
@@ -93,7 +105,7 @@ public class LoadView
 	{
 		frame = new JFrame();
 		frame.setTitle("EZ-Google");
-		frame.setBounds(100, 100, 600, 400);
+		frame.setBounds(100, 100, 600, 420);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		mainPan = new JPanel();
@@ -101,7 +113,7 @@ public class LoadView
 		mainPan.setLayout(new BorderLayout(0, 0));
 		
 		panLabel = new JPanel();
-		panLabel.setPreferredSize(new Dimension(10, 300));
+		panLabel.setPreferredSize(new Dimension(10, 350));
 		mainPan.add(panLabel, BorderLayout.NORTH);
 		panLabel.setLayout(new BorderLayout(0, 0));
 		
@@ -132,6 +144,32 @@ public class LoadView
 		panTitle = new JPanel();
 		panLabel.add(panTitle, BorderLayout.CENTER);
 		panTitle.setLayout(new BorderLayout(0, 0));
+		
+		panImg = new JPanel();
+		panTitle.add(panImg, BorderLayout.CENTER);
+		panImg.setLayout(new BorderLayout(0, 0));
+		
+		imgLoading = new ImageIcon("./bin/document/image/loading.gif");
+		labelImgLoading = new JLabel("");
+		labelImgLoading.setIcon(imgLoading);
+		panImg.add(labelImgLoading, BorderLayout.CENTER);
+		
+		horizontalStrut = Box.createHorizontalStrut(20);
+		horizontalStrut.setPreferredSize(new Dimension(200, 0));
+		panImg.add(horizontalStrut, BorderLayout.WEST);
+		
+		imgMen = new ImageIcon("./bin/document/image/men.gif");
+		
+		panel = new JPanel();
+		panImg.add(panel, BorderLayout.SOUTH);
+		panel.setLayout(new BorderLayout(0, 0));
+		labelImgMen = new JLabel("");
+		panel.add(labelImgMen, BorderLayout.CENTER);
+		labelImgMen.setIcon(imgMen);
+		
+		horizontalStrut_1 = Box.createHorizontalStrut(20);
+		horizontalStrut_1.setPreferredSize(new Dimension(180, 0));
+		panel.add(horizontalStrut_1, BorderLayout.WEST);
 		
 		hsMainSettingLeft = Box.createHorizontalStrut(20);
 		mainPan.add(hsMainSettingLeft, BorderLayout.WEST);
