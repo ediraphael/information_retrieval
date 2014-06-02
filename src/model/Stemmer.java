@@ -51,7 +51,7 @@ class Stemmer
 	/* unit of size whereby b is increased */
 	public Stemmer()
 	{
-		//Dictionary.reset();
+		// Dictionary.reset();
 		b = new char[INC];
 		i = 0;
 		i_end = 0;
@@ -627,20 +627,40 @@ class Stemmer
 					j++;
 				}
 			}
-			if (i == w.length - 1)
+		}
+		for (int c = 0; c < j; c++)
+		{
+			this.add(w[c]);
+		}
+		this.stem();
+		String wordStemmer = new String(this.getResultBuffer(), 0, this.getResultLength());
+		if (!(wordStemmer.equals("")))
+		{
+			Dictionary.addWord(wordStemmer, fileName, ratio, wordPosition);
+		}
+	}
+
+	public String stemmerWord(String word)
+	{
+		char[] w = word.toCharArray();
+		int j = 0;
+		for (int i = 0; i < w.length; i++)
+		{
+			if (Character.isLetter((char) w[i]))
 			{
-				/* to test add(char ch) */
-				for (int c = 0; c < j; c++)
+				w[i] = Character.toLowerCase((char) w[i]);
+				w[j] = (char) w[i];
+				if (j < 500)
 				{
-					this.add(w[c]);
-				}
-				this.stem();
-				String wordStemmer = new String(this.getResultBuffer(), 0, this.getResultLength());
-				if (!(wordStemmer.equals("")))
-				{
-					Dictionary.addWord(wordStemmer, fileName, ratio, wordPosition);
+					j++;
 				}
 			}
 		}
+		for (int c = 0; c < j; c++)
+		{
+			this.add(w[c]);
+		}
+		this.stem();
+		return new String(this.getResultBuffer(), 0, this.getResultLength());
 	}
 }
