@@ -25,6 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JList;
+import javax.swing.border.LineBorder;
 
 public class MainView 
 {
@@ -37,6 +38,7 @@ public class MainView
 	private JPanel panResult;
 	private JPanel panSeparator;
 	private JPanel panSeparatorContainer;
+	private JPanel panTextAreaResult;
 	private JScrollPane scrollPanResult;
 
 	private Component vsActionLowSetting;
@@ -51,6 +53,7 @@ public class MainView
 	private Component vsSeparatorLowSetting;
 	private Component hsSeparatorLeftSetting;
 	private Component hsSeparatorRightSetting;
+	private Component horizontalStrut;
 	
 	private JSeparator firstSeparator;
 	private JSeparator secondSeparator;
@@ -61,7 +64,7 @@ public class MainView
 	private JTextField textFieldQuery;
 	private JTextArea textAreaResult;
 	private JPanel panResultContainer;
-	private JList list;
+	private JList listResultDoc;
 
 	
 	/**
@@ -208,17 +211,27 @@ public class MainView
 		panResult.add(panResultContainer, BorderLayout.CENTER);
 		panResultContainer.setLayout(new BorderLayout(0, 0));
 		
-		list = new JList();
-		list.setPreferredSize(new Dimension(100, 0));
-		panResultContainer.add(list, BorderLayout.WEST);
+		listResultDoc = new JList();
+		listResultDoc.setBackground(new Color(169, 169, 169));
+		listResultDoc.setBorder(new LineBorder(new Color(128, 128, 128)));
+		listResultDoc.setPreferredSize(new Dimension(100, 0));
+		panResultContainer.add(listResultDoc, BorderLayout.WEST);
+		
+		panTextAreaResult = new JPanel();
+		panResultContainer.add(panTextAreaResult, BorderLayout.CENTER);
+		panTextAreaResult.setLayout(new BorderLayout(0, 0));
+		
+		horizontalStrut = Box.createHorizontalStrut(20);
+		horizontalStrut.setPreferredSize(new Dimension(10, 0));
+		panTextAreaResult.add(horizontalStrut, BorderLayout.WEST);
 		
 
-//		scrollPanResult = new JScrollPane();
-//		panResultContainer.add(scrollPanResult, BorderLayout.CENTER);
-//
-//		textAreaResult = new JTextArea();
-//		textAreaResult.setEditable(false);
-//		scrollPanResult.setViewportView(textAreaResult);
+		scrollPanResult = new JScrollPane();
+		panTextAreaResult.add(scrollPanResult, BorderLayout.CENTER);
+
+		textAreaResult = new JTextArea();
+		textAreaResult.setEditable(false);
+		scrollPanResult.setViewportView(textAreaResult);
 		
 		frmEzSearch.setVisible(true);
 	}
