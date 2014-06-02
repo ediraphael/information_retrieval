@@ -1,14 +1,17 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Dictionary
 {
 	private static HashMap<String, HashMap<String, DataReferency>> elements;
+	private static ArrayList<String> stopWords;
 
 	public Dictionary()
 	{
 		elements = new HashMap<String, HashMap<String, DataReferency>>();
+		stopWords = new ArrayList<String>();
 	}
 
 	public static void addWord(String word, String docID, int ratio, WordPosition wordPosition)
@@ -33,6 +36,16 @@ public class Dictionary
 	public static void reset()
 	{
 		elements = new HashMap<String, HashMap<String, DataReferency>>();
+	}
+
+	public static ArrayList<String> getStopWords()
+	{
+		return stopWords;
+	}
+
+	public static void setStopWords(ArrayList<String> stopWords)
+	{
+		Dictionary.stopWords = stopWords;
 	}
 
 	public static HashMap<String, HashMap<String, DataReferency>> getElements()

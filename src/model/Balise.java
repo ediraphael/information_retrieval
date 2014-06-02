@@ -225,7 +225,10 @@ public enum Balise
 		while (tokens.hasMoreElements())
 		{
 			String token = tokens.nextToken();
-			stemmerApDocumentPartWord(stemmer, token, docNo, wordPosition);
+			if (!Dictionary.getStopWords().contains(token))
+			{
+				stemmerApDocumentPartWord(stemmer, token, docNo, wordPosition);
+			}
 			wordPosition++;
 		}
 	}
@@ -257,18 +260,9 @@ public enum Balise
 					calculateRatio += wordPosition.getBalise().getWeightRatio();
 				}
 				Dictionary.getElements().get(dictionaryKey).get(apDocument.getDocNo()).setWeight(calculateRatio / maxOccurency);
-				/*System.out.println(dictionaryKey + " occurence : " + Dictionary.getElements().get(dictionaryKey).get(apDocument.getDocNo()).getOccurency() + "  ratio: " + calculateRatio + " maxOcc:" + maxOccurency + " poid:" + calculateRatio / maxOccurency);
-				if ((calculateRatio / maxOccurency) > 1)
-				{
-					try
-					{
-						Thread.sleep(5000);
-					} catch (InterruptedException e)
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}*/
+				/*
+				 * System.out.println(dictionaryKey + " occurence : " + Dictionary.getElements().get(dictionaryKey).get(apDocument.getDocNo()).getOccurency() + "  ratio: " + calculateRatio + " maxOcc:" + maxOccurency + " poid:" + calculateRatio / maxOccurency); if ((calculateRatio / maxOccurency) > 1) { try { Thread.sleep(5000); } catch (InterruptedException e) { // TODO Auto-generated catch block e.printStackTrace(); } }
+				 */
 			}
 		}
 

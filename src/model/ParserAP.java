@@ -2,6 +2,7 @@ package model;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -33,7 +34,21 @@ public class ParserAP
 	public void loadAllApDocumentByFolder()
 	{
 		Dictionary.reset();
-		File stopWords = new File("./bin/document/ap/stopWord/stopwords.txt");
+		ArrayList<String> stopWords = new ArrayList<String>();
+		try
+		{
+			BufferedReader inputF = new BufferedReader(new FileReader("./bin/document/ap/stopWord/stopwords.txt"));
+			String line = null;
+			while ((line = inputF.readLine()) != null)
+			{
+				stopWords.add(line.trim());
+			}
+			inputF.close();
+		} catch (IOException e1)
+		{
+			System.err.println("Error during reading stop word file : " + e1.getMessage());
+		}
+		Dictionary.setStopWords(stopWords);
 
 		File repertoire = new File("./bin/document/ap/");
 		File[] fichiesrTxt = repertoire.listFiles(new FilenameFilter()
@@ -99,6 +114,22 @@ public class ParserAP
 		int nbFileLoad;
 
 		Dictionary.reset();
+		ArrayList<String> stopWords = new ArrayList<String>();
+		try
+		{
+			BufferedReader inputF = new BufferedReader(new FileReader("./bin/document/ap/stopWord/stopwords.txt"));
+			String line = null;
+			while ((line = inputF.readLine()) != null)
+			{
+				stopWords.add(line.trim());
+			}
+			inputF.close();
+		} catch (IOException e1)
+		{
+			System.err.println("Error during reading stop word file : " + e1.getMessage());
+		}
+		Dictionary.setStopWords(stopWords);
+
 		File repertoire = new File("./bin/document/ap/");
 		File[] fichiesrTxt = repertoire.listFiles(new FilenameFilter()
 		{
