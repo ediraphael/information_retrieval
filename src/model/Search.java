@@ -78,6 +78,7 @@ public class Search
 		}
 
 		System.out.println(entriesSortedByReverseValues(docValue));
+		System.out.println(docValue.size());
 	}
 
 	public ArrayList<String> stemmerQuery()
