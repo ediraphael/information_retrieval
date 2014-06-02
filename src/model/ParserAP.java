@@ -28,11 +28,13 @@ import view.LoadView;
 
 public class ParserAP
 {
-	
-	//TODO delete après la fin des devs de l'interface
+
+	// TODO delete après la fin des devs de l'interface
 	public void loadAllApDocumentByFolder()
 	{
 		Dictionary.reset();
+		File stopWords = new File("./bin/document/ap/stopWord/stopwords.txt");
+
 		File repertoire = new File("./bin/document/ap/");
 		File[] fichiesrTxt = repertoire.listFiles(new FilenameFilter()
 		{
@@ -90,15 +92,12 @@ public class ParserAP
 			}
 		}
 	}
-	
-	
-	
-	
+
 	public void loadAllApDocumentByFolder(JProgressBar pBar, JLabel labelFileInProgress)
 	{
 		int nbFile;
 		int nbFileLoad;
-		
+
 		Dictionary.reset();
 		File repertoire = new File("./bin/document/ap/");
 		File[] fichiesrTxt = repertoire.listFiles(new FilenameFilter()
@@ -110,8 +109,8 @@ public class ParserAP
 			}
 		});
 		ArrayList<String> listeFichierTxt = new ArrayList<String>();
-		nbFile=fichiesrTxt.length;
-		nbFileLoad=0;
+		nbFile = fichiesrTxt.length;
+		nbFileLoad = 0;
 		for (File fichier : fichiesrTxt)
 		{
 			labelFileInProgress.setText(fichier.toString());
@@ -151,15 +150,13 @@ public class ParserAP
 						i++;
 					}
 					nbFileLoad++;
-					pBar.setValue((nbFileLoad*100)/nbFile);
-					System.out.println((nbFileLoad*100)/nbFile);
-				}
-				catch (SAXException | IOException e)
+					pBar.setValue((nbFileLoad * 100) / nbFile);
+					System.out.println((nbFileLoad * 100) / nbFile);
+				} catch (SAXException | IOException e)
 				{
 					System.err.println("Erreur de parsage : " + e.getMessage());
 				}
-			} 
-			catch (ParserConfigurationException e)
+			} catch (ParserConfigurationException e)
 			{
 				System.err.println("Erreur : " + e.getMessage());
 			}
@@ -199,8 +196,7 @@ public class ParserAP
 							registerDocument = true;
 							apDocument = new ApDocument();
 							Balise.getBaliseByRepresentation(nodeElement.getTextContent().trim()).initApDocument(apDocument, nodeElement.getTextContent().trim());
-						} 
-						else if (registerDocument)
+						} else if (registerDocument)
 						{
 							Balise.getBaliseByRepresentation(nodeElement.getTextContent().trim()).initApDocument(apDocument, nodeElement.getTextContent().trim());
 						}
@@ -212,13 +208,11 @@ public class ParserAP
 						break;
 					}
 				}
-			} 
-			catch (SAXException | IOException e)
+			} catch (SAXException | IOException e)
 			{
 				System.err.println("Erreur de parsage : " + e.getMessage());
 			}
-		} 
-		catch (ParserConfigurationException e)
+		} catch (ParserConfigurationException e)
 		{
 			System.err.println("Erreur : " + e.getMessage());
 		}
@@ -231,8 +225,7 @@ public class ParserAP
 		{
 			byte[] encoded = Files.readAllBytes(Paths.get(path));
 			return new String(encoded);
-		} 
-		catch (IOException e)
+		} catch (IOException e)
 		{
 			System.err.println("Error reading file : " + e.getMessage());
 			return null;

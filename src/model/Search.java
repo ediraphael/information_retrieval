@@ -9,6 +9,8 @@ import java.util.SortedSet;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 
+import javax.swing.DefaultListModel;
+
 public class Search
 {
 	private String query;
@@ -95,12 +97,12 @@ public class Search
 		return stemmerQuerry;
 	}
 
-	public ArrayList<String> getListResultOrdered()
+	public DefaultListModel<String> getListResultOrdered()
 	{
-		ArrayList<String> returnList = new ArrayList<String>();
+		DefaultListModel<String> returnList = new DefaultListModel<String>();
 		for (Map.Entry<String, Double> entry : entriesSortedByReverseValues(this.result))
 		{
-			returnList.add(entry.getKey());
+			returnList.addElement(entry.getKey());
 		}
 		return returnList;
 	}
