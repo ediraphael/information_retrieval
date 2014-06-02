@@ -246,7 +246,7 @@ public class ParserAP
 		Stemmer stemmer = new Stemmer();
 		ParserAP parser = new ParserAP();
 		// parser.loadAllApDocumentByDocList();
-		//parser.loadAllApDocumentByFolder();
+		parser.loadAllApDocumentByFolder();
 		long end = System.currentTimeMillis();
 		System.out.println("Temps de chargement : " + ((end - start) / 1000.0) + "s");
 		System.out.println(Dictionary.getElements().size());

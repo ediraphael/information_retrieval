@@ -1,10 +1,11 @@
 package model;
 
+import java.util.Set;
 import java.util.StringTokenizer;
 
 public enum Balise
 {
-	DOCNO("DOCNO")
+	DOCNO("DOCNO", 5)
 	{
 		public void initApDocument(ApDocument apDocument, String textContent)
 		{
@@ -21,7 +22,7 @@ public enum Balise
 			return apDocument.getDocNo();
 		}
 	},
-	FILEID("FILEID")
+	FILEID("FILEID", 5)
 	{
 		public void initApDocument(ApDocument apDocument, String textContent)
 		{
@@ -38,7 +39,7 @@ public enum Balise
 			return apDocument.getFileId();
 		}
 	},
-	FIRST("FIRST")
+	FIRST("FIRST", 4)
 	{
 		public void initApDocument(ApDocument apDocument, String textContent)
 		{
@@ -55,7 +56,7 @@ public enum Balise
 			return apDocument.getFirst();
 		}
 	},
-	SECOND("SECOND")
+	SECOND("SECOND", 3)
 	{
 		public void initApDocument(ApDocument apDocument, String textContent)
 		{
@@ -72,7 +73,7 @@ public enum Balise
 			return apDocument.getSecond();
 		}
 	},
-	HEAD("HEAD")
+	HEAD("HEAD", 5)
 	{
 		public void initApDocument(ApDocument apDocument, String textContent)
 		{
@@ -89,7 +90,7 @@ public enum Balise
 			return apDocument.getHead();
 		}
 	},
-	BYLINE("BYLINE")
+	BYLINE("BYLINE", 2)
 	{
 		public void initApDocument(ApDocument apDocument, String textContent)
 		{
@@ -106,7 +107,7 @@ public enum Balise
 			return apDocument.getByLine();
 		}
 	},
-	DATELINE("DATELINE")
+	DATELINE("DATELINE", 2)
 	{
 		public void initApDocument(ApDocument apDocument, String textContent)
 		{
@@ -123,7 +124,7 @@ public enum Balise
 			return apDocument.getDateLine();
 		}
 	},
-	TEXT("TEXT")
+	TEXT("TEXT", 1)
 	{
 		public void initApDocument(ApDocument apDocument, String textContent)
 		{
@@ -140,7 +141,7 @@ public enum Balise
 			return apDocument.getText();
 		}
 	},
-	NOTE("NOTE")
+	NOTE("NOTE", 1)
 	{
 		public void initApDocument(ApDocument apDocument, String textContent)
 		{
@@ -157,7 +158,7 @@ public enum Balise
 			return apDocument.getNote();
 		}
 	},
-	UNK("UNK")
+	UNK("UNK", 1)
 	{
 		public void initApDocument(ApDocument apDocument, String textContent)
 		{
@@ -174,7 +175,7 @@ public enum Balise
 			return apDocument.getUnk();
 		}
 	},
-	INCONU("#TEXT")
+	INCONU("#TEXT", 0)
 	{
 		public String getApDocumentTextContent(ApDocument apDocument)
 		{
@@ -183,6 +184,7 @@ public enum Balise
 	};
 
 	private String representation;
+	private double weightRatio;
 
 	public static Balise getBaliseByRepresentation(String representation)
 	{
@@ -235,11 +237,47 @@ public enum Balise
 		{
 			balise.stemmerApDocumentPart(stemmer, apDocument.getDocNo(), balise.getApDocumentTextContent(apDocument));
 		}
+		int maxOccurency = 0;
+		Set<String> dictionaryKeys = Dictionary.getElements().keySet();
+		for (String dictionaryKey : dictionaryKeys)
+		{
+			if (Dictionary.getElements().get(dictionaryKey).containsKey(apDocument.getDocNo()))
+			{
+				maxOccurency = Math.max(maxOccurency, Dictionary.getElements().get(dictionaryKey).get(apDocument.getDocNo()).getOccurency());
+			}
+		}
+
+		for (String dictionaryKey : dictionaryKeys)
+		{
+			if (Dictionary.getElements().get(dictionaryKey).containsKey(apDocument.getDocNo()))
+			{
+				double calculateRatio = 0;
+				for (WordPosition wordPosition : Dictionary.getElements().get(dictionaryKey).get(apDocument.getDocNo()).getWordPositions())
+				{
+					calculateRatio += wordPosition.getBalise().getWeightRatio();
+				}
+				Dictionary.getElements().get(dictionaryKey).get(apDocument.getDocNo()).setWeight(calculateRatio / maxOccurency);
+				/*System.out.println(dictionaryKey + " occurence : " + Dictionary.getElements().get(dictionaryKey).get(apDocument.getDocNo()).getOccurency() + "  ratio: " + calculateRatio + " maxOcc:" + maxOccurency + " poid:" + calculateRatio / maxOccurency);
+				if ((calculateRatio / maxOccurency) > 1)
+				{
+					try
+					{
+						Thread.sleep(5000);
+					} catch (InterruptedException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}*/
+			}
+		}
+
 	}
 
-	private Balise(String representation)
+	private Balise(String representation, double weightRatio)
 	{
 		this.representation = representation;
+		this.weightRatio = weightRatio;
 	}
 
 	public String getRepresentation()
@@ -250,5 +288,15 @@ public enum Balise
 	public void setRepresentation(String representation)
 	{
 		this.representation = representation;
+	}
+
+	public double getWeightRatio()
+	{
+		return weightRatio;
+	}
+
+	public void setWeightRatio(double weightRatio)
+	{
+		this.weightRatio = weightRatio;
 	}
 }
