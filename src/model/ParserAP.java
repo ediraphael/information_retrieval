@@ -187,19 +187,19 @@ public class ParserAP
 		System.out.println(Dictionary.getElements().size());
 
 		Search search = new Search("Document will discuss allegations, or measures being taken against, corrupt public officials of any governmental jurisdiction worldwide.");
-		System.out.println(search.stemmerQuery());
-		//		Set<String> keys = Dictionary.getElements().keySet();
-//		for (String string : keys)
-//		{
-//			System.out.println(string + "->" + Dictionary.getElements().get(string));
-//			try
-//			{
-//				Thread.sleep(1000);
-//			} catch (InterruptedException e)
-//			{
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
+		search.execute();
+		// Set<String> keys = Dictionary.getElements().keySet();
+		// for (String string : keys)
+		// {
+		// System.out.println(string + "->" + Dictionary.getElements().get(string));
+		// try
+		// {
+		// Thread.sleep(1000);
+		// } catch (InterruptedException e)
+		// {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// }
 	}
 }
