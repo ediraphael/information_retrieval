@@ -216,7 +216,7 @@ public class MainView
 		panResultContainer = new JPanel();
 		panResult.add(panResultContainer, BorderLayout.CENTER);
 		panResultContainer.setLayout(new BorderLayout(0, 0));
-		
+
 		panTextAreaResult = new JPanel();
 		panResultContainer.add(panTextAreaResult, BorderLayout.CENTER);
 		panTextAreaResult.setLayout(new BorderLayout(0, 0));
@@ -231,25 +231,22 @@ public class MainView
 		textAreaResult = new JTextArea();
 		textAreaResult.setEditable(false);
 		scrollPanResult.setViewportView(textAreaResult);
-		
+
 		scrollPanelistDoc = new JScrollPane();
 		scrollPanelistDoc.setPreferredSize(new Dimension(130, 0));
 		panResultContainer.add(scrollPanelistDoc, BorderLayout.WEST);
-		
+
 		listResultDoc = new JList<String>();
 		listResultDoc.addMouseListener(new MouseAdapter()
 		{
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
-				JOptionPane.showMessageDialog(frmEzSearch, listResultDoc.getSelectedValue(), null, JOptionPane.ERROR_MESSAGE);
 				ParserAP parser = new ParserAP();
-				ApDocument apDocument = parser.loadApDocument(listResultDoc.getSelectedValue());
-				System.out.println(apDocument);
-				textAreaResult.setText(apDocument.toString());
+				textAreaResult.setText(parser.loadApDocument(listResultDoc.getSelectedValue()));
 			}
 		});
-		
+
 		listResultDoc.setBackground(new Color(169, 169, 169));
 		scrollPanelistDoc.setViewportView(listResultDoc);
 		frmEzSearch.setVisible(true);

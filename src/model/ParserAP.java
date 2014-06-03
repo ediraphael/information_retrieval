@@ -114,9 +114,9 @@ public class ParserAP
 		LoadView.loadingTerminated();
 	}
 
-	public ApDocument loadApDocument(String documentName)
+	public String loadApDocument(String documentName)
 	{
-		ApDocument apDocument = new ApDocument();
+		StringBuilder text = new StringBuilder();
 
 		String fileName = documentName.split("-")[0];
 		try
@@ -147,7 +147,8 @@ public class ParserAP
 						}
 						if (!(nodeElement instanceof Text) && registerDocument)
 						{
-							Balise.valueOf(nodeElement.getNodeName().trim()).initApDocument(apDocument, nodeElement.getTextContent().trim());
+							// Balise.valueOf(nodeElement.getNodeName().trim()).initApDocument(apDocument, nodeElement.getTextContent().trim());
+							text.append(nodeElement.getNodeName().trim() + "> " + nodeElement.getTextContent().trim() + "\n");
 						}
 						j++;
 					}
@@ -165,7 +166,7 @@ public class ParserAP
 		{
 			System.err.println("Erreur : " + e.getMessage());
 		}
-		return apDocument;
+		return text.toString();
 	}
 
 	public static String getFileContent(String path)
