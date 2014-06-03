@@ -29,6 +29,7 @@ import view.LoadView;
 
 public class ParserAP
 {
+	public int nbDoc = 0;
 
 	// TODO delete après la fin des devs de l'interface
 	public void loadAllApDocumentByFolder()
@@ -94,6 +95,7 @@ public class ParserAP
 							j++;
 						}
 						Balise.stemmerApDocument(apDocument);
+						nbDoc++;
 
 						i++;
 					}
@@ -273,22 +275,23 @@ public class ParserAP
 		parser.loadAllApDocumentByFolder();
 		long end = System.currentTimeMillis();
 		System.out.println("Temps de chargement : " + ((end - start) / 1000.0) + "s");
-		System.out.println(Dictionary.getElements().size());
+		System.out.println("Nb Element dico : " + Dictionary.getElements().size());
+		System.out.println("Nb document : " + parser.nbDoc);
 
 		Search search = new Search("Document will discuss allegations, or measures being taken against, corrupt public officials of any governmental jurisdiction worldwide.");
 		search.execute();
-		// Set<String> keys = Dictionary.getElements().keySet();
-		// for (String string : keys)
-		// {
-		// System.out.println(string + "->" + Dictionary.getElements().get(string));
-		// try
-		// {
-		// Thread.sleep(1000);
-		// } catch (InterruptedException e)
-		// {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// }
+		Set<String> keys = Dictionary.getElements().keySet();
+		for (String string : keys)
+		{
+			System.out.println(string + "->" + Dictionary.getElements().get(string));
+			try
+			{
+				Thread.sleep(1000);
+			} catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }
