@@ -27,90 +27,6 @@ import view.LoadView;
 
 public class ParserAP
 {
-<<<<<<< HEAD
-	public int nbDoc = 0;
-
-	// TODO delete après la fin des devs de l'interface
-	public void loadAllApDocumentByFolder()
-	{
-		Dictionary.reset();
-		ArrayList<String> stopWords = new ArrayList<String>();
-		try
-		{
-			BufferedReader inputF = new BufferedReader(new FileReader("./bin/document/ap/stopWord/stopwords.txt"));
-			String line = null;
-			while ((line = inputF.readLine()) != null)
-			{
-				stopWords.add(line.trim());
-			}
-			inputF.close();
-		} catch (IOException e1)
-		{
-			System.err.println("Error during reading stop word file : " + e1.getMessage());
-		}
-		Dictionary.setStopWords(stopWords);
-
-		File repertoire = new File("./bin/document/ap/");
-		File[] fichiesrTxt = repertoire.listFiles(new FilenameFilter()
-		{
-			@Override
-			public boolean accept(File repertoire, String nomFichier)
-			{
-				return nomFichier.startsWith("AP");
-			}
-		});
-		ArrayList<String> listeFichierTxt = new ArrayList<String>();
-		for (File fichier : fichiesrTxt)
-		{
-			listeFichierTxt.add(fichier.getName());
-			ApDocument apDocument = null;
-
-			try
-			{
-				String fileContent = "<DOCS>" + getFileContent(fichier.getPath()) + "</DOCS>";
-				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-				DocumentBuilder dBuilder;
-				dBuilder = dbFactory.newDocumentBuilder();
-				Document doc = null;
-				try
-				{
-					doc = dBuilder.parse(new InputSource(new StringReader(fileContent)));
-					doc.getDocumentElement().normalize();
-					NodeList docsList = doc.getElementsByTagName("DOC");
-					Node node = null;
-					int i = 0;
-					while ((node = docsList.item(i)) != null)
-					{
-						apDocument = new ApDocument();
-						NodeList nodeElements = node.getChildNodes();
-						Node nodeElement = null;
-						int j = 0;
-						while ((nodeElement = nodeElements.item(j)) != null)
-						{
-							if (!(nodeElement instanceof Text))
-							{
-								Balise.valueOf(nodeElement.getNodeName().toUpperCase().trim()).initApDocument(apDocument, nodeElement.getTextContent().trim());
-							}
-							j++;
-						}
-						Balise.stemmerApDocument(apDocument);
-						nbDoc++;
-
-						i++;
-					}
-				} catch (SAXException | IOException e)
-				{
-					System.err.println("Erreur de parsage : " + e.getMessage());
-				}
-			} catch (ParserConfigurationException e)
-			{
-				System.err.println("Erreur : " + e.getMessage());
-			}
-		}
-	}
-
-=======
->>>>>>> 9cc96c61708c425e168d6499df2983a2b871af3b
 	public void loadAllApDocumentByFolder(JProgressBar pBar, JLabel labelFileInProgress)
 	{
 		int nbFile;
@@ -267,36 +183,6 @@ public class ParserAP
 
 	}
 
-<<<<<<< HEAD
-	public static void main(String[] args)
-	{
-		long start = System.currentTimeMillis();
-		Stemmer stemmer = new Stemmer();
-		ParserAP parser = new ParserAP();
-		// parser.loadAllApDocumentByDocList();
-		parser.loadAllApDocumentByFolder();
-		long end = System.currentTimeMillis();
-		System.out.println("Temps de chargement : " + ((end - start) / 1000.0) + "s");
-		System.out.println("Nb Element dico : " + Dictionary.getElements().size());
-		System.out.println("Nb document : " + parser.nbDoc);
-
-		Search search = new Search("Document will discuss allegations, or measures being taken against, corrupt public officials of any governmental jurisdiction worldwide.");
-		search.execute();
-		Set<String> keys = Dictionary.getElements().keySet();
-		for (String string : keys)
-		{
-			System.out.println(string + "->" + Dictionary.getElements().get(string));
-			try
-			{
-				Thread.sleep(1000);
-			} catch (InterruptedException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-=======
 //	public static void main(String[] args)
 //	{
 //		long start = System.currentTimeMillis();
@@ -324,5 +210,4 @@ public class ParserAP
 //		// }
 //		// }
 //	}
->>>>>>> 9cc96c61708c425e168d6499df2983a2b871af3b
 }
