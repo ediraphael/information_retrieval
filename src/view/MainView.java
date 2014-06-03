@@ -23,6 +23,8 @@ import model.Search;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.Color;
 import java.awt.Font;
 
@@ -91,7 +93,6 @@ public class MainView
 		frmEzSearch.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmEzSearch.getContentPane().setLayout(new BorderLayout(0, 0));
 		
-
 		panAction = new JPanel();
 		panAction.setPreferredSize(new Dimension(10, 50));
 		frmEzSearch.getContentPane().add(panAction, BorderLayout.SOUTH);
@@ -107,36 +108,6 @@ public class MainView
 		panBtn.setLayout(new BorderLayout(0, 0));
 
 		btnSearch = new JButton("Rechercher");
-		
-		//TODO marche pas mais pourquoi? 
-//		btnSearch.addKeyListener(new KeyAdapter() 
-//		{
-//			@Override
-//			public void keyReleased(KeyEvent e) 
-//			{
-//				if (e.getKeyCode() == KeyEvent.VK_ENTER)
-//				{
-//					startSearch();
-//				}
-//			}
-//			@Override
-//			public void keyPressed(KeyEvent e) 
-//			{
-//				if (e.getKeyCode() == KeyEvent.VK_ENTER)
-//				{
-//					startSearch();
-//				}
-//			}
-//			@Override
-//			public void keyTyped(KeyEvent e) 
-//			{
-//				if (e.getKeyCode() == KeyEvent.VK_ENTER)
-//				{
-//					startSearch();
-//				}
-//			}
-//		});
-
 		btnSearch.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
@@ -162,6 +133,17 @@ public class MainView
 		mainPanQuery.add(textFieldQuery, BorderLayout.CENTER);
 		textFieldQuery.setColumns(10);
 
+		textFieldQuery.addKeyListener(new KeyAdapter() 
+		{
+			public void keyPressed(KeyEvent e) 
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER)  
+				{
+					btnSearch.doClick();
+				}
+			}
+		});
+		
 		hsBtnSearchLeftSetting = Box.createHorizontalStrut(20);
 		hsBtnSearchLeftSetting.setPreferredSize(new Dimension(10, 0));
 		mainPanQuery.add(hsBtnSearchLeftSetting, BorderLayout.EAST);
