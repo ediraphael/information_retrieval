@@ -225,10 +225,7 @@ public enum Balise
 		while (tokens.hasMoreElements())
 		{
 			String token = tokens.nextToken();
-			if (!Dictionary.getStopWords().contains(token))
-			{
-				stemmerApDocumentPartWord(stemmer, token, docNo, wordPosition);
-			}
+			stemmerApDocumentPartWord(stemmer, token, docNo, wordPosition);
 			wordPosition++;
 		}
 	}

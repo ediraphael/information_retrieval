@@ -11,6 +11,7 @@ import java.awt.Component;
 
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
+import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -70,7 +71,7 @@ public class MainView
 	private JLabel labelQuery;
 	private JButton btnSearch;
 	private JTextField textFieldQuery;
-	private JTextArea textAreaResult;
+	private JEditorPane textAreaResult;
 	private JPanel panResultContainer;
 	private JScrollPane scrollPanelistDoc;
 	private JList<String> listResultDoc;
@@ -228,7 +229,7 @@ public class MainView
 		scrollPanResult = new JScrollPane();
 		panTextAreaResult.add(scrollPanResult, BorderLayout.CENTER);
 
-		textAreaResult = new JTextArea();
+		textAreaResult = new JEditorPane("text/html", "");
 		textAreaResult.setEditable(false);
 		scrollPanResult.setViewportView(textAreaResult);
 
@@ -243,7 +244,7 @@ public class MainView
 			public void mouseClicked(MouseEvent e)
 			{
 				ParserAP parser = new ParserAP();
-				textAreaResult.setText(parser.loadApDocument(listResultDoc.getSelectedValue()));
+				textAreaResult.setText(parser.loadApDocument(listResultDoc.getSelectedValue(), textFieldQuery.getText()));
 			}
 		});
 
@@ -263,7 +264,7 @@ public class MainView
 		{
 			Search search = new Search(textFieldQuery.getText());
 			search.execute();
-			textAreaResult.setText(search.getResult().toString());
+			// textAreaResult.setText(search.getResult().toString());
 			DefaultListModel<String> result = search.getListResultOrdered();
 			listResultDoc.setModel(result);
 		}

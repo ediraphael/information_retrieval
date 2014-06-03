@@ -94,6 +94,7 @@ public class Search
 			String token = tokens.nextToken();
 			stemmerQuerry.add(stemmer.stemmerWord(token));
 		}
+		System.out.println(stemmerQuerry);
 		return stemmerQuerry;
 	}
 

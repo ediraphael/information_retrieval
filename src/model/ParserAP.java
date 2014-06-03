@@ -9,6 +9,7 @@ import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
@@ -114,9 +115,12 @@ public class ParserAP
 		LoadView.loadingTerminated();
 	}
 
-	public String loadApDocument(String documentName)
+	public String loadApDocument(String documentName, String query)
 	{
 		StringBuilder text = new StringBuilder();
+		Search search = new Search(query);
+		ArrayList<String> stemmerQuery = search.stemmerQuery();
+		Stemmer stemmer = new Stemmer();
 
 		String fileName = documentName.split("-")[0];
 		try
@@ -147,8 +151,33 @@ public class ParserAP
 						}
 						if (!(nodeElement instanceof Text) && registerDocument)
 						{
-							// Balise.valueOf(nodeElement.getNodeName().trim()).initApDocument(apDocument, nodeElement.getTextContent().trim());
-							text.append(nodeElement.getNodeName().trim() + "> " + nodeElement.getTextContent().trim() + "\n");
+							text.append(nodeElement.getNodeName().trim() + "> ");
+							StringTokenizer tokens = new StringTokenizer(nodeElement.getTextContent().trim(), " ''``;,.\n\t\r");
+							while (tokens.hasMoreTokens())
+							{
+								String word = tokens.nextToken();
+								String stem = stemmer.stemmerWord(word);
+								if (stemmerQuery.contains(stem))
+								{
+									if (Dictionary.getElements().containsKey(stem))
+									{
+										if (Dictionary.getElements().get(stem).containsKey(documentName))
+										{
+											text.append("<b>" + word + " </b>");
+										} else
+										{
+											text.append(word + " ");
+										}
+									} else
+									{
+										text.append(word + " ");
+									}
+								} else
+								{
+									text.append(word + " ");
+								}
+							}
+							text.append("<br>");
 						}
 						j++;
 					}

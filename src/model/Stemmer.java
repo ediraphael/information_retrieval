@@ -636,7 +636,10 @@ class Stemmer
 		String wordStemmer = new String(this.getResultBuffer(), 0, this.getResultLength());
 		if (!(wordStemmer.equals("")))
 		{
-			Dictionary.addWord(wordStemmer, fileName, ratio, wordPosition);
+			if (!Dictionary.getStopWords().contains(wordStemmer))
+			{
+				Dictionary.addWord(wordStemmer, fileName, ratio, wordPosition);
+			}
 		}
 	}
 
