@@ -31,11 +31,9 @@ import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.JList;
-import javax.swing.border.LineBorder;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.ScrollPaneConstants;
 
 public class MainView
 {
@@ -50,7 +48,6 @@ public class MainView
 	private JPanel panSeparatorContainer;
 	private JPanel panTextAreaResult;
 	private JScrollPane scrollPanResult;
-	private JScrollPane scrollPaneListDoc;
 
 	private Component vsActionLowSetting;
 	private Component hsBtnSearchRightSetting;
@@ -75,6 +72,7 @@ public class MainView
 	private JTextField textFieldQuery;
 	private JTextArea textAreaResult;
 	private JPanel panResultContainer;
+	private JScrollPane scrollPanelistDoc;
 	private JList<String> listResultDoc;
 
 	/**
@@ -218,25 +216,7 @@ public class MainView
 		panResultContainer = new JPanel();
 		panResult.add(panResultContainer, BorderLayout.CENTER);
 		panResultContainer.setLayout(new BorderLayout(0, 0));
-
-		listResultDoc = new JList<String>();
-		listResultDoc.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				JOptionPane.showMessageDialog(frmEzSearch, listResultDoc.getSelectedValue(), null, JOptionPane.ERROR_MESSAGE);
-				ParserAP parser = new ParserAP();
-				ApDocument apDocument = parser.loadApDocument(listResultDoc.getSelectedValue());
-				System.out.println(apDocument);
-				textAreaResult.setText(apDocument.toString());
-			}
-		});
-		listResultDoc.setBackground(new Color(169, 169, 169));
-		listResultDoc.setBorder(new LineBorder(new Color(128, 128, 128)));
-		listResultDoc.setPreferredSize(new Dimension(120, 0));
-		//panResultContainer.add(listResultDoc, BorderLayout.WEST);
-
+		
 		panTextAreaResult = new JPanel();
 		panResultContainer.add(panTextAreaResult, BorderLayout.CENTER);
 		panTextAreaResult.setLayout(new BorderLayout(0, 0));
@@ -252,12 +232,26 @@ public class MainView
 		textAreaResult.setEditable(false);
 		scrollPanResult.setViewportView(textAreaResult);
 		
-		scrollPaneListDoc = new JScrollPane(listResultDoc);
-		scrollPaneListDoc.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPaneListDoc.setPreferredSize(new Dimension(130, 3));
-		//scrollPaneListDoc.setViewportView(listResultDoc);
-		panResultContainer.add(scrollPaneListDoc, BorderLayout.WEST);
-
+		scrollPanelistDoc = new JScrollPane();
+		scrollPanelistDoc.setPreferredSize(new Dimension(130, 0));
+		panResultContainer.add(scrollPanelistDoc, BorderLayout.WEST);
+		
+		listResultDoc = new JList<String>();
+		listResultDoc.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				JOptionPane.showMessageDialog(frmEzSearch, listResultDoc.getSelectedValue(), null, JOptionPane.ERROR_MESSAGE);
+				ParserAP parser = new ParserAP();
+				ApDocument apDocument = parser.loadApDocument(listResultDoc.getSelectedValue());
+				System.out.println(apDocument);
+				textAreaResult.setText(apDocument.toString());
+			}
+		});
+		
+		listResultDoc.setBackground(new Color(169, 169, 169));
+		scrollPanelistDoc.setViewportView(listResultDoc);
 		frmEzSearch.setVisible(true);
 	}
 
