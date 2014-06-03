@@ -141,7 +141,11 @@ public class ParserAP
 					int j = 0;
 					while ((nodeElement = nodeElements.item(j)) != null)
 					{
-						if (!(nodeElement instanceof Text))
+						if (nodeElement.getNodeName().toUpperCase().trim().equals("DOCNO") && nodeElement.getTextContent().trim().equals(documentName.trim()))
+						{
+							registerDocument = true;
+						}
+						if (!(nodeElement instanceof Text) && registerDocument)
 						{
 							Balise.valueOf(nodeElement.getNodeName().trim()).initApDocument(apDocument, nodeElement.getTextContent().trim());
 						}
