@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import java.awt.Component;
 
 import javax.swing.Box;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -22,10 +23,16 @@ import model.Search;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.Color;
 import java.awt.Font;
+
 import javax.swing.JList;
 import javax.swing.border.LineBorder;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MainView 
 {
@@ -64,7 +71,7 @@ public class MainView
 	private JTextField textFieldQuery;
 	private JTextArea textAreaResult;
 	private JPanel panResultContainer;
-	private JList listResultDoc;
+	private JList<String> listResultDoc;
 
 	
 	/**
@@ -86,7 +93,6 @@ public class MainView
 		frmEzSearch.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmEzSearch.getContentPane().setLayout(new BorderLayout(0, 0));
 		
-
 		panAction = new JPanel();
 		panAction.setPreferredSize(new Dimension(10, 50));
 		frmEzSearch.getContentPane().add(panAction, BorderLayout.SOUTH);
@@ -101,24 +107,12 @@ public class MainView
 		panAction.add(panBtn, BorderLayout.EAST);
 		panBtn.setLayout(new BorderLayout(0, 0));
 
-		btnSearch = new JButton("Research");
+		btnSearch = new JButton("Rechercher");
 		btnSearch.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				textAreaResult.setText("");
-				
-				if(textFieldQuery.getText().isEmpty())
-				{
-					JOptionPane.showMessageDialog(frmEzSearch,"Veuillez entrer une requête",null, JOptionPane.ERROR_MESSAGE);
-				}
-				else
-				{
-					Search search = new Search(textFieldQuery.getText());
-					search.execute();
-					textAreaResult.setText(search.getResult().toString());
-					
-				}
+				startSearch();
 			}
 		});
 		panBtn.add(btnSearch, BorderLayout.CENTER);
@@ -139,6 +133,17 @@ public class MainView
 		mainPanQuery.add(textFieldQuery, BorderLayout.CENTER);
 		textFieldQuery.setColumns(10);
 
+		textFieldQuery.addKeyListener(new KeyAdapter() 
+		{
+			public void keyPressed(KeyEvent e) 
+			{
+				if (e.getKeyCode() == KeyEvent.VK_ENTER)  
+				{
+					btnSearch.doClick();
+				}
+			}
+		});
+		
 		hsBtnSearchLeftSetting = Box.createHorizontalStrut(20);
 		hsBtnSearchLeftSetting.setPreferredSize(new Dimension(10, 0));
 		mainPanQuery.add(hsBtnSearchLeftSetting, BorderLayout.EAST);
@@ -210,11 +215,19 @@ public class MainView
 		panResultContainer = new JPanel();
 		panResult.add(panResultContainer, BorderLayout.CENTER);
 		panResultContainer.setLayout(new BorderLayout(0, 0));
-		
-		listResultDoc = new JList();
+        
+		listResultDoc = new JList<String>();
+		listResultDoc.addMouseListener(new MouseAdapter() 
+		{
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				JOptionPane.showMessageDialog(frmEzSearch,listResultDoc.getSelectedValue(),null, JOptionPane.ERROR_MESSAGE);
+			}
+		});
 		listResultDoc.setBackground(new Color(169, 169, 169));
 		listResultDoc.setBorder(new LineBorder(new Color(128, 128, 128)));
-		listResultDoc.setPreferredSize(new Dimension(100, 0));
+		listResultDoc.setPreferredSize(new Dimension(120, 0));
 		panResultContainer.add(listResultDoc, BorderLayout.WEST);
 		
 		panTextAreaResult = new JPanel();
@@ -236,4 +249,22 @@ public class MainView
 		frmEzSearch.setVisible(true);
 	}
 
+	
+	private void startSearch()
+	{
+		textAreaResult.setText("");
+		
+		if(textFieldQuery.getText().isEmpty())
+		{
+			JOptionPane.showMessageDialog(frmEzSearch,"Veuillez entrer une requête",null, JOptionPane.ERROR_MESSAGE);
+		}
+		else
+		{
+			Search search = new Search(textFieldQuery.getText());
+			search.execute();
+			textAreaResult.setText(search.getResult().toString());
+			DefaultListModel<String> result = search.getListResultOrdered();
+			listResultDoc.setModel(result);
+		}
+	}
 }

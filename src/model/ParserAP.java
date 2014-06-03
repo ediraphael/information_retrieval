@@ -2,7 +2,6 @@ package model;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -10,7 +9,6 @@ import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Set;
 
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
@@ -29,6 +27,7 @@ import view.LoadView;
 
 public class ParserAP
 {
+<<<<<<< HEAD
 	public int nbDoc = 0;
 
 	// TODO delete après la fin des devs de l'interface
@@ -110,6 +109,8 @@ public class ParserAP
 		}
 	}
 
+=======
+>>>>>>> 9cc96c61708c425e168d6499df2983a2b871af3b
 	public void loadAllApDocumentByFolder(JProgressBar pBar, JLabel labelFileInProgress)
 	{
 		int nbFile;
@@ -194,7 +195,7 @@ public class ParserAP
 				System.err.println("Erreur : " + e.getMessage());
 			}
 		}
-		LoadView.loadlingTerminated();
+		LoadView.loadingTerminated();
 	}
 
 	public ApDocument loadApDocument(String documentName)
@@ -266,6 +267,7 @@ public class ParserAP
 
 	}
 
+<<<<<<< HEAD
 	public static void main(String[] args)
 	{
 		long start = System.currentTimeMillis();
@@ -294,4 +296,33 @@ public class ParserAP
 			}
 		}
 	}
+=======
+//	public static void main(String[] args)
+//	{
+//		long start = System.currentTimeMillis();
+//		Stemmer stemmer = new Stemmer();
+//		ParserAP parser = new ParserAP();
+//		// parser.loadAllApDocumentByDocList();
+//		parser.loadAllApDocumentByFolder();
+//		long end = System.currentTimeMillis();
+//		System.out.println("Temps de chargement : " + ((end - start) / 1000.0) + "s");
+//		System.out.println(Dictionary.getElements().size());
+//
+//		Search search = new Search("Document will discuss allegations, or measures being taken against, corrupt public officials of any governmental jurisdiction worldwide.");
+//		search.execute();
+//		// Set<String> keys = Dictionary.getElements().keySet();
+//		// for (String string : keys)
+//		// {
+//		// System.out.println(string + "->" + Dictionary.getElements().get(string));
+//		// try
+//		// {
+//		// Thread.sleep(1000);
+//		// } catch (InterruptedException e)
+//		// {
+//		// // TODO Auto-generated catch block
+//		// e.printStackTrace();
+//		// }
+//		// }
+//	}
+>>>>>>> 9cc96c61708c425e168d6499df2983a2b871af3b
 }

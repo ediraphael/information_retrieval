@@ -194,9 +194,8 @@ public class LoadView
 		
 	}
 	
-	public static void loadlingTerminated()
+	public static void loadingTerminated()
 	{
-		//JOptionPane.showMessageDialog(frame,"Chargement terminé",null, JOptionPane.INFORMATION_MESSAGE);
 		new MainView();
 		frame.dispose();
 	}
