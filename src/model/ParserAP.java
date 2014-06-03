@@ -116,7 +116,7 @@ public class ParserAP
 
 	public ApDocument loadApDocument(String documentName)
 	{
-		ApDocument apDocument = null;
+		ApDocument apDocument = new ApDocument();
 
 		String fileName = documentName.split("-")[0];
 		try
@@ -141,14 +141,9 @@ public class ParserAP
 					int j = 0;
 					while ((nodeElement = nodeElements.item(j)) != null)
 					{
-						if (nodeElement.getNodeName().toUpperCase().trim().equals("DOCNO") && nodeElement.getTextContent().trim().equals(documentName))
+						if (!(nodeElement instanceof Text))
 						{
-							registerDocument = true;
-							apDocument = new ApDocument();
-							Balise.getBaliseByRepresentation(nodeElement.getTextContent().trim()).initApDocument(apDocument, nodeElement.getTextContent().trim());
-						} else if (registerDocument)
-						{
-							Balise.getBaliseByRepresentation(nodeElement.getTextContent().trim()).initApDocument(apDocument, nodeElement.getTextContent().trim());
+							Balise.valueOf(nodeElement.getNodeName().trim()).initApDocument(apDocument, nodeElement.getTextContent().trim());
 						}
 						j++;
 					}
@@ -183,31 +178,31 @@ public class ParserAP
 
 	}
 
-//	public static void main(String[] args)
-//	{
-//		long start = System.currentTimeMillis();
-//		Stemmer stemmer = new Stemmer();
-//		ParserAP parser = new ParserAP();
-//		// parser.loadAllApDocumentByDocList();
-//		parser.loadAllApDocumentByFolder();
-//		long end = System.currentTimeMillis();
-//		System.out.println("Temps de chargement : " + ((end - start) / 1000.0) + "s");
-//		System.out.println(Dictionary.getElements().size());
-//
-//		Search search = new Search("Document will discuss allegations, or measures being taken against, corrupt public officials of any governmental jurisdiction worldwide.");
-//		search.execute();
-//		// Set<String> keys = Dictionary.getElements().keySet();
-//		// for (String string : keys)
-//		// {
-//		// System.out.println(string + "->" + Dictionary.getElements().get(string));
-//		// try
-//		// {
-//		// Thread.sleep(1000);
-//		// } catch (InterruptedException e)
-//		// {
-//		// // TODO Auto-generated catch block
-//		// e.printStackTrace();
-//		// }
-//		// }
-//	}
+	// public static void main(String[] args)
+	// {
+	// long start = System.currentTimeMillis();
+	// Stemmer stemmer = new Stemmer();
+	// ParserAP parser = new ParserAP();
+	// // parser.loadAllApDocumentByDocList();
+	// parser.loadAllApDocumentByFolder();
+	// long end = System.currentTimeMillis();
+	// System.out.println("Temps de chargement : " + ((end - start) / 1000.0) + "s");
+	// System.out.println(Dictionary.getElements().size());
+	//
+	// Search search = new Search("Document will discuss allegations, or measures being taken against, corrupt public officials of any governmental jurisdiction worldwide.");
+	// search.execute();
+	// // Set<String> keys = Dictionary.getElements().keySet();
+	// // for (String string : keys)
+	// // {
+	// // System.out.println(string + "->" + Dictionary.getElements().get(string));
+	// // try
+	// // {
+	// // Thread.sleep(1000);
+	// // } catch (InterruptedException e)
+	// // {
+	// // // TODO Auto-generated catch block
+	// // e.printStackTrace();
+	// // }
+	// // }
+	// }
 }
