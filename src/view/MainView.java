@@ -35,6 +35,7 @@ import javax.swing.border.LineBorder;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.ScrollPaneConstants;
 
 public class MainView
 {
@@ -49,6 +50,7 @@ public class MainView
 	private JPanel panSeparatorContainer;
 	private JPanel panTextAreaResult;
 	private JScrollPane scrollPanResult;
+	private JScrollPane scrollPaneListDoc;
 
 	private Component vsActionLowSetting;
 	private Component hsBtnSearchRightSetting;
@@ -227,12 +229,13 @@ public class MainView
 				ParserAP parser = new ParserAP();
 				ApDocument apDocument = parser.loadApDocument(listResultDoc.getSelectedValue());
 				System.out.println(apDocument);
+				textAreaResult.setText(apDocument.toString());
 			}
 		});
 		listResultDoc.setBackground(new Color(169, 169, 169));
 		listResultDoc.setBorder(new LineBorder(new Color(128, 128, 128)));
 		listResultDoc.setPreferredSize(new Dimension(120, 0));
-		panResultContainer.add(listResultDoc, BorderLayout.WEST);
+		//panResultContainer.add(listResultDoc, BorderLayout.WEST);
 
 		panTextAreaResult = new JPanel();
 		panResultContainer.add(panTextAreaResult, BorderLayout.CENTER);
@@ -248,6 +251,12 @@ public class MainView
 		textAreaResult = new JTextArea();
 		textAreaResult.setEditable(false);
 		scrollPanResult.setViewportView(textAreaResult);
+		
+		scrollPaneListDoc = new JScrollPane(listResultDoc);
+		scrollPaneListDoc.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPaneListDoc.setPreferredSize(new Dimension(130, 3));
+		//scrollPaneListDoc.setViewportView(listResultDoc);
+		panResultContainer.add(scrollPaneListDoc, BorderLayout.WEST);
 
 		frmEzSearch.setVisible(true);
 	}
