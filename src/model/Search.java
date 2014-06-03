@@ -78,10 +78,65 @@ public class Search
 				}
 			}
 		}
+
+		if (stemmerQuerry.size() >= 2)
+		{
+			for (String docNo : docValue.keySet())
+			{
+				ArrayList<String> stemmerQuerryCopy = new ArrayList<String>(stemmerQuerry);
+				for (String wordQuerry : stemmerQuerry)
+				{
+					if (!Dictionary.getElements().containsKey(wordQuerry) || !Dictionary.getElements().get(wordQuerry).containsKey(docNo))
+					{
+						stemmerQuerryCopy.remove(wordQuerry);
+					}
+				}
+
+				if (stemmerQuerryCopy.size() > 1)
+				{
+					double ecart = Double.MAX_VALUE;
+					String wordQuerry = stemmerQuerryCopy.get(0);
+					stemmerQuerryCopy.remove(wordQuerry);
+					for (WordPosition wordPositionNext : Dictionary.getElements().get(wordQuerry).get(docNo).getWordPositions())
+					{
+						ArrayList<String> stemmerQuerryCopy2 = new ArrayList<String>(stemmerQuerryCopy);
+						ecart = Math.min(recursiveQuerySearch(stemmerQuerryCopy2, docNo, wordPositionNext), ecart);
+					}
+					docValue.put(docNo, docValue.get(docNo) + (((ecart == 0 ? 1.0 : 1.0 / ecart)) * (((stemmerQuerryCopy.size() + 1.0)*(stemmerQuerryCopy.size() + 1.0)) / stemmerQuerry.size()) * 50));
+					System.out.println("stemmerQuery size : " + stemmerQuerry.size() + ", copy size : " + stemmerQuerryCopy.size() + 1);
+					System.out.println("gain : " + (((ecart == 0 ? 1.0 : 1.0 / ecart)) * (((stemmerQuerryCopy.size() + 1.0)*(stemmerQuerryCopy.size() + 1.0)) / stemmerQuerry.size()) * 50));
+					System.out.println(docNo + "->" + ecart + ", value : " + docValue.get(docNo));
+				}
+			}
+		}
+
 		this.result = docValue;
 		System.out.println(entriesSortedByReverseValues(docValue));
-		System.out.println(this.getListResultOrdered());
 		System.out.println(docValue.size());
+	}
+
+	public double recursiveQuerySearch(ArrayList<String> stemmerQuerry, String docNo, WordPosition wordPosition)
+	{
+		double ecart = Double.MAX_VALUE;
+
+		String wordQuerry = stemmerQuerry.get(0);
+		ArrayList<String> stemmerQuerryCopy = new ArrayList<String>(stemmerQuerry);
+		stemmerQuerryCopy.remove(wordQuerry);
+
+		for (WordPosition wordPositionNext : Dictionary.getElements().get(wordQuerry).get(docNo).getWordPositions())
+		{
+			ecart = Math.min(ecart, Math.abs((wordPositionNext.getPosition() + (wordPosition.getBalise() != wordPositionNext.getBalise() ? 50 : 0)) - wordPosition.getPosition() - 1));
+		}
+		if (stemmerQuerryCopy.size() > 2)
+		{
+			double minEcart = Double.MAX_VALUE;
+			for (WordPosition wordPositionNext : Dictionary.getElements().get(wordQuerry).get(docNo).getWordPositions())
+			{
+				minEcart = Math.min(recursiveQuerySearch(stemmerQuerryCopy, docNo, wordPositionNext), minEcart);
+			}
+			ecart += minEcart;
+		}
+		return ecart;
 	}
 
 	public ArrayList<String> stemmerQuery()
