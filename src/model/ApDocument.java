@@ -103,7 +103,7 @@ public class ApDocument
 
 	public String getFileId()
 	{
-		return fileId;
+		return fileId.trim();
 	}
 
 	public void setFileId(String fileId)
@@ -113,7 +113,7 @@ public class ApDocument
 
 	public String getFirst()
 	{
-		return first;
+		return first.trim();
 	}
 
 	public void setFirst(String first)
@@ -123,7 +123,7 @@ public class ApDocument
 
 	public String getSecond()
 	{
-		return second;
+		return second.trim();
 	}
 
 	public void setSecond(String second)
@@ -133,17 +133,17 @@ public class ApDocument
 
 	public String getHead()
 	{
-		return head;
+		return head.trim();
 	}
 
 	public void setHead(String head)
 	{
-		this.head = head;
+		this.head = head.trim();
 	}
 
 	public String getByLine()
 	{
-		return byLine;
+		return byLine.trim();
 	}
 
 	public void setByLine(String byLine)
@@ -153,7 +153,7 @@ public class ApDocument
 
 	public String getDateLine()
 	{
-		return dateLine;
+		return dateLine.trim();
 	}
 
 	public void setDateLine(String dateLine)
@@ -163,7 +163,7 @@ public class ApDocument
 
 	public String getText()
 	{
-		return text;
+		return text.trim();
 	}
 
 	public void setText(String text)
@@ -173,7 +173,7 @@ public class ApDocument
 
 	public String getNote()
 	{
-		return note;
+		return note.trim();
 	}
 
 	public void setNote(String note)
@@ -183,7 +183,7 @@ public class ApDocument
 
 	public String getUnk()
 	{
-		return unk;
+		return unk.trim();
 	}
 
 	public void setUnk(String unk)

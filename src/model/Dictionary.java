@@ -16,6 +16,7 @@ public class Dictionary
 
 	public static void addWord(String word, String docID, int ratio, WordPosition wordPosition)
 	{
+		docID = docID.trim();
 		if (!Dictionary.getElements().containsKey(word))
 		{
 			Dictionary.getElements().put(word, new HashMap<String, DataReferency>());

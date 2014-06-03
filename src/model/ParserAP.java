@@ -102,7 +102,7 @@ public class ParserAP
 					}
 					nbFileLoad++;
 					pBar.setValue((nbFileLoad * 100) / nbFile);
-					System.out.println((nbFileLoad * 100) / nbFile);
+					// System.out.println((nbFileLoad * 100) / nbFile);
 				} catch (SAXException | IOException e)
 				{
 					System.err.println("Erreur de parsage : " + e.getMessage());
@@ -161,7 +161,7 @@ public class ParserAP
 								{
 									if (Dictionary.getElements().containsKey(stem))
 									{
-										if (Dictionary.getElements().get(stem).containsKey(documentName))
+										if (Dictionary.getElements().get(stem).containsKey(documentName.trim()))
 										{
 											text.append("<b>" + word + " </b>");
 										} else
