@@ -112,7 +112,6 @@ public class ParserAP
 				System.err.println("Erreur : " + e.getMessage());
 			}
 		}
-		LoadView.loadingTerminated();
 	}
 
 	public String loadApDocument(String documentName, String query)

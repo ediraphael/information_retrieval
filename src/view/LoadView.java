@@ -24,7 +24,7 @@ import java.awt.Color;
 public class LoadView
 {
 
-	private static JFrame frame;
+	private JFrame frame;
 
 	private JPanel mainPan;
 	private JPanel panLabel;
@@ -53,7 +53,7 @@ public class LoadView
 	private JPanel panel;
 	private Component horizontalStrut_1;
 	public static long executionTime;
-
+	
 	public class LoadThread extends Thread
 	{
 		public void run()
@@ -61,7 +61,9 @@ public class LoadView
 			long start = System.currentTimeMillis();
 			parser.loadAllApDocumentByFolder(progressBarLoad, labelFileInProgress);
 			long end = System.currentTimeMillis();
+			
 			LoadView.executionTime = end - start;
+			loadingTerminated();
 		}
 	}
 
@@ -77,7 +79,7 @@ public class LoadView
 				try
 				{
 					new LoadView();
-					frame.setVisible(true);
+					
 				} catch (Exception e)
 				{
 					e.printStackTrace();
@@ -185,12 +187,12 @@ public class LoadView
 		progressBarLoad.setToolTipText("");
 		panProgressBar.add(progressBarLoad, BorderLayout.NORTH);
 
-		LoadThread thread = new LoadThread();
-		thread.start();
-
+		Thread threadLoadView = new LoadThread();
+		frame.setVisible(true);
+		threadLoadView.start();
 	}
 
-	public static void loadingTerminated()
+	public void loadingTerminated()
 	{
 		new MainView(executionTime);
 		frame.dispose();
