@@ -14,13 +14,11 @@ import javax.swing.DefaultListModel;
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 
-import model.ApDocument;
 import model.ParserAP;
 import model.Search;
 
@@ -35,6 +33,8 @@ import javax.swing.JList;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 
 public class MainView
 {
@@ -59,22 +59,36 @@ public class MainView
 	private Component hsResultRightSetting;
 	private Component vsResultTopSetting;
 	private Component vsSeparatorTopSetting;
-	private Component vsSeparatorLowSetting;
 	private Component hsSeparatorLeftSetting;
 	private Component hsSeparatorRightSetting;
 	private Component horizontalStrut;
 
 	private JSeparator firstSeparator;
 	private JSeparator secondSeparator;
-	private JSeparator thirdSeparator;
-
-	private JLabel labelQuery;
 	private JButton btnSearch;
 	private JTextField textFieldQuery;
 	private JEditorPane textAreaResult;
 	private JPanel panResultContainer;
 	private JScrollPane scrollPanelistDoc;
 	private JList<String> listResultDoc;
+	private JPanel panChoice;
+	private Component hsChoiceLeftSetting;
+	private JPanel panChoiceContainer;
+	private JPanel panTypeSearch;
+	private JLabel labelTypeOfSearch;
+	private JPanel rdbTypeSearch;
+	private JRadioButton rdbtnSimple;
+	private JRadioButton rdbtnAdvance;
+	private JPanel panchoiceRight;
+	private JPanel panRestrictionType;
+	private Component hsChoiceBeetweenSetting;
+	private JPanel panRestrictionTypeContainer;
+	private JRadioButton rdbtnUnion;
+	private JRadioButton rdbtnIntersection;
+	private JLabel labelTypeDeRestriction;
+	private final ButtonGroup bgTypeRestriction = new ButtonGroup();
+	private final ButtonGroup typeSearch = new ButtonGroup();
+	private Component verticalStrut;
 
 	/**
 	 * Create the application.
@@ -155,11 +169,6 @@ public class MainView
 		panAction.add(panelQueryLabel, BorderLayout.NORTH);
 		panelQueryLabel.setLayout(new BorderLayout(0, 0));
 
-		labelQuery = new JLabel("   Requête : ");
-		labelQuery.setFont(new Font("Dialog", Font.ITALIC, 12));
-		labelQuery.setForeground(new Color(0, 0, 128));
-		panelQueryLabel.add(labelQuery, BorderLayout.NORTH);
-
 		hsActionLeftSetting = Box.createHorizontalStrut(20);
 		hsActionLeftSetting.setPreferredSize(new Dimension(10, 0));
 		panAction.add(hsActionLeftSetting, BorderLayout.WEST);
@@ -189,10 +198,6 @@ public class MainView
 		vsSeparatorTopSetting.setPreferredSize(new Dimension(0, 10));
 		panSeparator.add(vsSeparatorTopSetting, BorderLayout.NORTH);
 
-		vsSeparatorLowSetting = Box.createVerticalStrut(20);
-		vsSeparatorLowSetting.setPreferredSize(new Dimension(0, 5));
-		panSeparator.add(vsSeparatorLowSetting, BorderLayout.SOUTH);
-
 		hsSeparatorLeftSetting = Box.createHorizontalStrut(20);
 		hsSeparatorLeftSetting.setPreferredSize(new Dimension(10, 0));
 		panSeparator.add(hsSeparatorLeftSetting, BorderLayout.WEST);
@@ -210,9 +215,86 @@ public class MainView
 
 		secondSeparator = new JSeparator();
 		panSeparatorContainer.add(secondSeparator, BorderLayout.CENTER);
-
-		thirdSeparator = new JSeparator();
-		panSeparatorContainer.add(thirdSeparator, BorderLayout.SOUTH);
+		
+		verticalStrut = Box.createVerticalStrut(20);
+		verticalStrut.setPreferredSize(new Dimension(0, 10));
+		panSeparatorContainer.add(verticalStrut, BorderLayout.SOUTH);
+		
+		panChoice = new JPanel();
+		panChoice.setPreferredSize(new Dimension(10, 50));
+		panSeparator.add(panChoice, BorderLayout.SOUTH);
+		panChoice.setLayout(new BorderLayout(0, 0));
+		
+		hsChoiceLeftSetting = Box.createHorizontalStrut(20);
+		hsChoiceLeftSetting.setPreferredSize(new Dimension(10, 0));
+		panChoice.add(hsChoiceLeftSetting, BorderLayout.WEST);
+		
+		panChoiceContainer = new JPanel();
+		panChoice.add(panChoiceContainer, BorderLayout.CENTER);
+		panChoiceContainer.setLayout(new BorderLayout(0, 0));
+		
+		panTypeSearch = new JPanel();
+		panTypeSearch.setPreferredSize(new Dimension(145, 10));
+		panChoiceContainer.add(panTypeSearch, BorderLayout.WEST);
+		panTypeSearch.setLayout(new BorderLayout(0, 0));
+		
+		labelTypeOfSearch = new JLabel("Type de recherche :");
+		labelTypeOfSearch.setFont(new Font("Dialog", Font.BOLD, 12));
+		labelTypeOfSearch.setForeground(new Color(0, 0, 128));
+		panTypeSearch.add(labelTypeOfSearch, BorderLayout.NORTH);
+		
+		rdbTypeSearch = new JPanel();
+		rdbTypeSearch.setPreferredSize(new Dimension(10, 30));
+		panTypeSearch.add(rdbTypeSearch, BorderLayout.SOUTH);
+		rdbTypeSearch.setLayout(new BorderLayout(0, 0));
+		
+		rdbtnSimple = new JRadioButton("Simple");
+		typeSearch.add(rdbtnSimple);
+		rdbtnSimple.setSelected(true);
+		rdbtnSimple.setForeground(new Color(0, 0, 139));
+		rdbtnSimple.setFont(new Font("Dialog", Font.ITALIC, 12));
+		rdbTypeSearch.add(rdbtnSimple, BorderLayout.WEST);
+		
+		rdbtnAdvance = new JRadioButton("Avancé");
+		typeSearch.add(rdbtnAdvance);
+		rdbtnAdvance.setForeground(new Color(0, 0, 139));
+		rdbtnAdvance.setFont(new Font("Dialog", Font.ITALIC, 12));
+		rdbtnAdvance.setActionCommand("Avancé");
+		rdbTypeSearch.add(rdbtnAdvance, BorderLayout.EAST);
+		
+		panchoiceRight = new JPanel();
+		panChoiceContainer.add(panchoiceRight, BorderLayout.CENTER);
+		panchoiceRight.setLayout(new BorderLayout(0, 0));
+		
+		panRestrictionType = new JPanel();
+		panRestrictionType.setPreferredSize(new Dimension(210, 10));
+		panchoiceRight.add(panRestrictionType, BorderLayout.WEST);
+		panRestrictionType.setLayout(new BorderLayout(0, 0));
+		
+		hsChoiceBeetweenSetting = Box.createHorizontalStrut(20);
+		hsChoiceBeetweenSetting.setPreferredSize(new Dimension(40, 0));
+		panRestrictionType.add(hsChoiceBeetweenSetting, BorderLayout.WEST);
+		
+		panRestrictionTypeContainer = new JPanel();
+		panRestrictionType.add(panRestrictionTypeContainer, BorderLayout.CENTER);
+		panRestrictionTypeContainer.setLayout(new BorderLayout(0, 0));
+		
+		rdbtnUnion = new JRadioButton("Union");
+		bgTypeRestriction.add(rdbtnUnion);
+		rdbtnUnion.setSelected(true);
+		rdbtnUnion.setFont(new Font("Dialog", Font.ITALIC, 12));
+		rdbtnUnion.setForeground(new Color(0, 0, 139));
+		panRestrictionTypeContainer.add(rdbtnUnion, BorderLayout.WEST);
+		
+		rdbtnIntersection = new JRadioButton("Intersection");
+		bgTypeRestriction.add(rdbtnIntersection);
+		rdbtnIntersection.setFont(new Font("Dialog", Font.ITALIC, 12));
+		rdbtnIntersection.setForeground(new Color(0, 0, 139));
+		panRestrictionTypeContainer.add(rdbtnIntersection, BorderLayout.EAST);
+		
+		labelTypeDeRestriction = new JLabel("Type de restriction :");
+		labelTypeDeRestriction.setForeground(new Color(0, 0, 128));
+		panRestrictionTypeContainer.add(labelTypeDeRestriction, BorderLayout.NORTH);
 
 		panResultContainer = new JPanel();
 		panResult.add(panResultContainer, BorderLayout.CENTER);
