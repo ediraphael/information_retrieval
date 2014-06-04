@@ -15,17 +15,20 @@ public class Search
 {
 	private String query;
 	private HashMap<String, Double> result;
+	private boolean useStopWords;
 
-	public Search(String query, HashMap<String, Double> result)
+	public Search(String query, HashMap<String, Double> result, boolean useStopWords)
 	{
 		this.query = query;
 		this.result = result;
+		this.useStopWords = useStopWords;
 	}
 
 	public Search(String query)
 	{
 		this.query = query;
 		this.result = new HashMap<String, Double>();
+		this.useStopWords = true;
 	}
 
 	static <K, V extends Comparable<? super V>> SortedSet<Map.Entry<K, V>> entriesSortedByValues(Map<K, V> map)
@@ -198,7 +201,7 @@ public class Search
 			String token = tokens.nextToken();
 			stemmerQuerry.add(stemmer.stemmerWord(token));
 		}
-		if (true)
+		if (this.useStopWords)
 		{
 			stemmerQuerry.removeAll(Dictionary.getStopWords());
 		}
@@ -234,5 +237,15 @@ public class Search
 	public void setResult(HashMap<String, Double> result)
 	{
 		this.result = result;
+	}
+
+	public boolean isUseStopWords()
+	{
+		return useStopWords;
+	}
+
+	public void setUseStopWords(boolean useStopWords)
+	{
+		this.useStopWords = useStopWords;
 	}
 }

@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 
+import model.Dictionary;
 import model.ParserAP;
 import model.Search;
 
@@ -60,7 +61,7 @@ public class MainView
 	private JPanel panStopWord;
 	private JPanel panStopWordContainer;
 	private JPanel panChoiceLeft;
-	
+
 	private JScrollPane scrollPanResult;
 	private JScrollPane scrollPanelistDoc;
 
@@ -100,16 +101,14 @@ public class MainView
 	private JEditorPane editorResult;
 	private JList<String> listResultDoc;
 
-	
-	
 	/**
 	 * Create the application.
 	 */
 	public MainView(long executionTime)
 	{
 		initialize();
-		editorResult.setText("<br/><center><b><font color='#000080'>Chargement effectué en </font><font color='blue'>"
-				+(executionTime/1000f)+"</font>  <font color='#000080'> secondes</font></b></center>");
+		editorResult.setText("<br/><center><b><font color='#000080'>Chargement effectué en </font>" + "<font color='blue'>" + (executionTime / 1000f) + "</font>  " + "<font color='#000080'> secondes</font><br />" + "<font color='#000080'>Le dictionnaire est composé de </font><font color='blue'>" + Dictionary.getElements().size() + " </font><font color='#000080'>mots.</font></b></center>");
+
 	}
 
 	/**
@@ -297,7 +296,7 @@ public class MainView
 		panchoiceRight.add(panRestrictionType, BorderLayout.WEST);
 		panRestrictionType.setLayout(new BorderLayout(0, 0));
 		panchoiceRight.setVisible(false);
-		
+
 		hsChoiceBeetweenSetting = Box.createHorizontalStrut(20);
 		hsChoiceBeetweenSetting.setPreferredSize(new Dimension(40, 0));
 		panRestrictionType.add(hsChoiceBeetweenSetting, BorderLayout.WEST);
@@ -319,32 +318,32 @@ public class MainView
 		rdbtnIntersection.setFont(new Font("Dialog", Font.ITALIC, 12));
 		rdbtnIntersection.setForeground(new Color(0, 0, 139));
 		panRestrictionTypeContainer.add(rdbtnIntersection, BorderLayout.EAST);
-		
+
 		panStopWord = new JPanel();
 		panchoiceRight.add(panStopWord, BorderLayout.CENTER);
 		panStopWord.setLayout(new BorderLayout(0, 0));
-		
+
 		hsBetweenRestrictionAndStopWordSetting = Box.createHorizontalStrut(20);
 		hsBetweenRestrictionAndStopWordSetting.setPreferredSize(new Dimension(40, 0));
 		panStopWord.add(hsBetweenRestrictionAndStopWordSetting, BorderLayout.WEST);
-		
+
 		panChoiceLeft = new JPanel();
 		panStopWord.add(panChoiceLeft, BorderLayout.CENTER);
 		panChoiceLeft.setLayout(new BorderLayout(0, 0));
-		
+
 		panStopWordContainer = new JPanel();
 		panStopWordContainer.setPreferredSize(new Dimension(115, 10));
 		panChoiceLeft.add(panStopWordContainer, BorderLayout.WEST);
 		panStopWordContainer.setBorder(new TitledBorder(new LineBorder(new Color(65, 105, 225), 1, true), "StopWords", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 128)));
 		panStopWordContainer.setLayout(new BorderLayout(0, 0));
-		
+
 		rdbtnYes = new JRadioButton("Oui");
 		rdbtnYes.setSelected(true);
 		bgStopWord.add(rdbtnYes);
 		rdbtnYes.setForeground(new Color(0, 0, 139));
 		rdbtnYes.setFont(new Font("Dialog", Font.ITALIC, 12));
 		panStopWordContainer.add(rdbtnYes, BorderLayout.WEST);
-		
+
 		rdbtnNo = new JRadioButton("Non");
 		bgStopWord.add(rdbtnNo);
 		rdbtnNo.setFont(new Font("Dialog", Font.ITALIC, 12));
@@ -381,7 +380,13 @@ public class MainView
 			public void mouseClicked(MouseEvent e)
 			{
 				ParserAP parser = new ParserAP();
-				editorResult.setText(parser.loadApDocument(listResultDoc.getSelectedValue(), textFieldQuery.getText()));
+				if (rdbtnAdvance.isSelected() && rdbtnNo.isSelected())
+				{
+					editorResult.setText(parser.loadApDocument(listResultDoc.getSelectedValue(), textFieldQuery.getText(), false));
+				} else
+				{
+					editorResult.setText(parser.loadApDocument(listResultDoc.getSelectedValue(), textFieldQuery.getText(), true));
+				}
 			}
 		});
 
@@ -403,14 +408,16 @@ public class MainView
 
 			if (rdbtnAdvance.isSelected() && rdbtnNo.isSelected())
 			{
-				//TODO mettre boolean stopword a false
+				search.setUseStopWords(false);
+			} else
+			{
+				search.setUseStopWords(true);
 			}
-			
+
 			if (rdbtnAdvance.isSelected() && rdbtnIntersection.isSelected())
 			{
 				search.executeIntersection();
-			} 
-			else
+			} else
 			{
 				search.executeUnion();
 			}

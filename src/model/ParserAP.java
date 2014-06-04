@@ -111,10 +111,11 @@ public class ParserAP
 		}
 	}
 
-	public String loadApDocument(String documentName, String query)
+	public String loadApDocument(String documentName, String query, boolean useStopWords)
 	{
 		StringBuilder text = new StringBuilder();
 		Search search = new Search(query);
+		search.setUseStopWords(useStopWords);
 		ArrayList<String> stemmerQuery = search.stemmerQuery();
 		Stemmer stemmer = new Stemmer();
 
