@@ -87,8 +87,8 @@ public class MainView
 	private JRadioButton rdbtnIntersection;
 	private JLabel labelTypeDeRestriction;
 	private final ButtonGroup bgTypeRestriction = new ButtonGroup();
-	private final ButtonGroup typeSearch = new ButtonGroup();
-	private Component verticalStrut;
+	private final ButtonGroup bgTypeSearch = new ButtonGroup();
+	private Component vsBetweenChoiceAndResult;
 
 	/**
 	 * Create the application.
@@ -216,9 +216,9 @@ public class MainView
 		secondSeparator = new JSeparator();
 		panSeparatorContainer.add(secondSeparator, BorderLayout.CENTER);
 		
-		verticalStrut = Box.createVerticalStrut(20);
-		verticalStrut.setPreferredSize(new Dimension(0, 10));
-		panSeparatorContainer.add(verticalStrut, BorderLayout.SOUTH);
+		vsBetweenChoiceAndResult = Box.createVerticalStrut(20);
+		vsBetweenChoiceAndResult.setPreferredSize(new Dimension(0, 10));
+		panSeparatorContainer.add(vsBetweenChoiceAndResult, BorderLayout.SOUTH);
 		
 		panChoice = new JPanel();
 		panChoice.setPreferredSize(new Dimension(10, 50));
@@ -249,14 +249,29 @@ public class MainView
 		rdbTypeSearch.setLayout(new BorderLayout(0, 0));
 		
 		rdbtnSimple = new JRadioButton("Simple");
-		typeSearch.add(rdbtnSimple);
+		rdbtnSimple.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				panRestrictionType.setVisible(false);
+				rdbtnUnion.setSelected(true);
+			}
+		});
+		bgTypeSearch.add(rdbtnSimple);
 		rdbtnSimple.setSelected(true);
 		rdbtnSimple.setForeground(new Color(0, 0, 139));
 		rdbtnSimple.setFont(new Font("Dialog", Font.ITALIC, 12));
 		rdbTypeSearch.add(rdbtnSimple, BorderLayout.WEST);
 		
 		rdbtnAdvance = new JRadioButton("Avancé");
-		typeSearch.add(rdbtnAdvance);
+		rdbtnAdvance.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				panRestrictionType.setVisible(true);
+			}
+		});
+		bgTypeSearch.add(rdbtnAdvance);
 		rdbtnAdvance.setForeground(new Color(0, 0, 139));
 		rdbtnAdvance.setFont(new Font("Dialog", Font.ITALIC, 12));
 		rdbtnAdvance.setActionCommand("Avancé");
@@ -270,6 +285,7 @@ public class MainView
 		panRestrictionType.setPreferredSize(new Dimension(210, 10));
 		panchoiceRight.add(panRestrictionType, BorderLayout.WEST);
 		panRestrictionType.setLayout(new BorderLayout(0, 0));
+		panRestrictionType.setVisible(false);
 		
 		hsChoiceBeetweenSetting = Box.createHorizontalStrut(20);
 		hsChoiceBeetweenSetting.setPreferredSize(new Dimension(40, 0));
@@ -342,11 +358,20 @@ public class MainView
 		if (textFieldQuery.getText().isEmpty())
 		{
 			JOptionPane.showMessageDialog(frmEzSearch, "Veuillez entrer une requête", null, JOptionPane.ERROR_MESSAGE);
-		} else
+		} 
+		else
 		{
 			Search search = new Search(textFieldQuery.getText());
-			search.execute();
-			// textAreaResult.setText(search.getResult().toString());
+
+			if(rdbtnAdvance.isSelected() && rdbtnIntersection.isSelected())
+			{
+				//TODO lancer recherche intersection
+			}
+			else
+			{
+				//TODO lancer recherche union
+				search.execute();
+			}
 			DefaultListModel<String> result = search.getListResultOrdered();
 			listResultDoc.setModel(result);
 		}
