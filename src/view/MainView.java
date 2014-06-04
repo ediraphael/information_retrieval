@@ -93,9 +93,10 @@ public class MainView
 	/**
 	 * Create the application.
 	 */
-	public MainView()
+	public MainView(long executionTime)
 	{
 		initialize();
+		System.out.println(executionTime);
 	}
 
 	/**
