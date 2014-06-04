@@ -638,7 +638,7 @@ class Stemmer
 		{
 			if (!Dictionary.getStopWords().contains(wordStemmer))
 			{
-				Dictionary.addWord(wordStemmer, fileName, ratio, wordPosition);
+				Dictionary.addWord(wordStemmer, fileName.trim(), ratio, wordPosition);
 			}
 		}
 	}

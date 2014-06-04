@@ -43,7 +43,8 @@ public class ApDocument
 
 	public void addDocNo(String docNo)
 	{
-		this.docNo += docNo + " ";
+		docNo = docNo.trim();
+		this.docNo += docNo;
 	}
 
 	public void addFileId(String fileId)

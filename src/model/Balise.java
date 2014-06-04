@@ -9,7 +9,7 @@ public enum Balise
 	{
 		public void initApDocument(ApDocument apDocument, String textContent)
 		{
-			apDocument.addDocNo(textContent);
+			apDocument.addDocNo(textContent.trim());
 		}
 
 		public void stemmerApDocumentPartWord(Stemmer stemmer, String token, String docNo, int wordPosition)
@@ -19,7 +19,7 @@ public enum Balise
 
 		public String getApDocumentTextContent(ApDocument apDocument)
 		{
-			return apDocument.getDocNo().trim();
+			return apDocument.getDocNo();
 		}
 	},
 	FILEID("FILEID", 5)
@@ -238,28 +238,28 @@ public enum Balise
 		Stemmer stemmer = new Stemmer();
 		for (Balise balise : Balise.values())
 		{
-			balise.stemmerApDocumentPart(stemmer, apDocument.getDocNo().trim(), balise.getApDocumentTextContent(apDocument));
+			balise.stemmerApDocumentPart(stemmer, apDocument.getDocNo(), balise.getApDocumentTextContent(apDocument));
 		}
 		int maxOccurency = 0;
 		Set<String> dictionaryKeys = Dictionary.getElements().keySet();
 		for (String dictionaryKey : dictionaryKeys)
 		{
-			if (Dictionary.getElements().get(dictionaryKey).containsKey(apDocument.getDocNo().trim()))
+			if (Dictionary.getElements().get(dictionaryKey).containsKey(apDocument.getDocNo()))
 			{
-				maxOccurency = Math.max(maxOccurency, Dictionary.getElements().get(dictionaryKey).get(apDocument.getDocNo().trim()).getOccurency());
+				maxOccurency = Math.max(maxOccurency, Dictionary.getElements().get(dictionaryKey).get(apDocument.getDocNo()).getOccurency());
 			}
 		}
 
 		for (String dictionaryKey : dictionaryKeys)
 		{
-			if (Dictionary.getElements().get(dictionaryKey).containsKey(apDocument.getDocNo().trim()))
+			if (Dictionary.getElements().get(dictionaryKey).containsKey(apDocument.getDocNo()))
 			{
 				double calculateRatio = 0;
-				for (WordPosition wordPosition : Dictionary.getElements().get(dictionaryKey).get(apDocument.getDocNo().trim()).getWordPositions())
+				for (WordPosition wordPosition : Dictionary.getElements().get(dictionaryKey).get(apDocument.getDocNo()).getWordPositions())
 				{
 					calculateRatio += wordPosition.getBalise().getWeightRatio();
 				}
-				Dictionary.getElements().get(dictionaryKey).get(apDocument.getDocNo().trim()).setWeight(calculateRatio / maxOccurency);
+				Dictionary.getElements().get(dictionaryKey).get(apDocument.getDocNo()).setWeight(calculateRatio / maxOccurency);
 				/*
 				 * System.out.println(dictionaryKey + " occurence : " + Dictionary.getElements().get(dictionaryKey).get(apDocument.getDocNo()).getOccurency() + "  ratio: " + calculateRatio + " maxOcc:" + maxOccurency + " poid:" + calculateRatio / maxOccurency); if ((calculateRatio / maxOccurency) > 1) { try { Thread.sleep(5000); } catch (InterruptedException e) { // TODO Auto-generated catch block e.printStackTrace(); } }
 				 */
