@@ -11,8 +11,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import javax.swing.JLabel;
-import javax.swing.JProgressBar;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -24,15 +22,14 @@ import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import view.LoadView;
-
 public class ParserAP
 {
-	public void loadAllApDocumentByFolder(JProgressBar pBar, JLabel labelFileInProgress)
-	{
-		int nbFile;
-		int nbFileLoad;
+	private int nbFile;
+	private int nbFileLoad;
+	private String lastFileLoad = "";
 
+	public void loadAllApDocumentByFolder()
+	{
 		Dictionary.reset();
 		ArrayList<String> stopWords = new ArrayList<String>();
 		try
@@ -64,7 +61,7 @@ public class ParserAP
 		nbFileLoad = 0;
 		for (File fichier : fichiesrTxt)
 		{
-			labelFileInProgress.setText(fichier.toString());
+			lastFileLoad = fichier.toString();
 			listeFichierTxt.add(fichier.getName());
 			ApDocument apDocument = null;
 
@@ -101,7 +98,6 @@ public class ParserAP
 						i++;
 					}
 					nbFileLoad++;
-					pBar.setValue((nbFileLoad * 100) / nbFile);
 					// System.out.println((nbFileLoad * 100) / nbFile);
 				} catch (SAXException | IOException e)
 				{
@@ -211,6 +207,35 @@ public class ParserAP
 
 	}
 
+	public int getNbFile()
+	{
+		return nbFile;
+	}
+
+	public void setNbFile(int nbFile)
+	{
+		this.nbFile = nbFile;
+	}
+
+	public int getNbFileLoad()
+	{
+		return nbFileLoad;
+	}
+
+	public void setNbFileLoad(int nbFileLoad)
+	{
+		this.nbFileLoad = nbFileLoad;
+	}
+
+	public String getLastFileLoad()
+	{
+		return lastFileLoad;
+	}
+
+	public void setLastFileLoad(String lastFileLoad)
+	{
+		this.lastFileLoad = lastFileLoad;
+	}
 	// public static void main(String[] args)
 	// {
 	// long start = System.currentTimeMillis();

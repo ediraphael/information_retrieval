@@ -53,15 +53,34 @@ public class LoadView
 	private JPanel panel;
 	private Component horizontalStrut_1;
 	public static long executionTime;
-	
+
 	public class LoadThread extends Thread
 	{
 		public void run()
 		{
 			long start = System.currentTimeMillis();
-			parser.loadAllApDocumentByFolder(progressBarLoad, labelFileInProgress);
+			Thread load = new Thread()
+			{
+				public void run()
+				{
+					parser.loadAllApDocumentByFolder();
+				}
+			};
+			load.start();
+			while (load.isAlive())
+			{
+				try
+				{
+					Thread.sleep(200);
+					progressBarLoad.setValue((parser.getNbFileLoad() * 100) / parser.getNbFile());
+					labelFileInProgress.setText(parser.getLastFileLoad());
+				} catch (InterruptedException e)
+				{
+					e.printStackTrace();
+				}
+			}
 			long end = System.currentTimeMillis();
-			
+
 			LoadView.executionTime = end - start;
 			loadingTerminated();
 		}
@@ -79,7 +98,7 @@ public class LoadView
 				try
 				{
 					new LoadView();
-					
+
 				} catch (Exception e)
 				{
 					e.printStackTrace();
