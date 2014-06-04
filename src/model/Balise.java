@@ -14,7 +14,14 @@ public enum Balise
 
 		public void stemmerApDocumentPartWord(Stemmer stemmer, String token, String docNo, int wordPosition)
 		{
-			stemmer.stemmerWord(token, docNo, 1, new WordPosition(Balise.DOCNO, wordPosition));
+			String wordStemmer = stemmer.stemmerWord(token);
+			if (!(wordStemmer.equals("")))
+			{
+				if (!Dictionary.getStopWords().contains(wordStemmer))
+				{
+					Dictionary.addWord(wordStemmer, docNo.trim(), 1, new WordPosition(Balise.DOCNO, wordPosition));
+				}
+			}
 		}
 
 		public String getApDocumentTextContent(ApDocument apDocument)
@@ -31,7 +38,14 @@ public enum Balise
 
 		public void stemmerApDocumentPartWord(Stemmer stemmer, String token, String docNo, int wordPosition)
 		{
-			stemmer.stemmerWord(token, docNo, 1, new WordPosition(Balise.FILEID, wordPosition));
+			String wordStemmer = stemmer.stemmerWord(token);
+			if (!(wordStemmer.equals("")))
+			{
+				if (!Dictionary.getStopWords().contains(wordStemmer))
+				{
+					Dictionary.addWord(wordStemmer, docNo.trim(), 1, new WordPosition(Balise.FILEID, wordPosition));
+				}
+			}
 		}
 
 		public String getApDocumentTextContent(ApDocument apDocument)
@@ -48,7 +62,14 @@ public enum Balise
 
 		public void stemmerApDocumentPartWord(Stemmer stemmer, String token, String docNo, int wordPosition)
 		{
-			stemmer.stemmerWord(token, docNo, 1, new WordPosition(Balise.FIRST, wordPosition));
+			String wordStemmer = stemmer.stemmerWord(token);
+			if (!(wordStemmer.equals("")))
+			{
+				if (!Dictionary.getStopWords().contains(wordStemmer))
+				{
+					Dictionary.addWord(wordStemmer, docNo.trim(), 1, new WordPosition(Balise.FIRST, wordPosition));
+				}
+			}
 		}
 
 		public String getApDocumentTextContent(ApDocument apDocument)
@@ -65,7 +86,14 @@ public enum Balise
 
 		public void stemmerApDocumentPartWord(Stemmer stemmer, String token, String docNo, int wordPosition)
 		{
-			stemmer.stemmerWord(token, docNo, 1, new WordPosition(Balise.SECOND, wordPosition));
+			String wordStemmer = stemmer.stemmerWord(token);
+			if (!(wordStemmer.equals("")))
+			{
+				if (!Dictionary.getStopWords().contains(wordStemmer))
+				{
+					Dictionary.addWord(wordStemmer, docNo.trim(), 1, new WordPosition(Balise.SECOND, wordPosition));
+				}
+			}
 		}
 
 		public String getApDocumentTextContent(ApDocument apDocument)
@@ -82,7 +110,14 @@ public enum Balise
 
 		public void stemmerApDocumentPartWord(Stemmer stemmer, String token, String docNo, int wordPosition)
 		{
-			stemmer.stemmerWord(token, docNo, 1, new WordPosition(Balise.HEAD, wordPosition));
+			String wordStemmer = stemmer.stemmerWord(token);
+			if (!(wordStemmer.equals("")))
+			{
+				if (!Dictionary.getStopWords().contains(wordStemmer))
+				{
+					Dictionary.addWord(wordStemmer, docNo.trim(), 1, new WordPosition(Balise.HEAD, wordPosition));
+				}
+			}
 		}
 
 		public String getApDocumentTextContent(ApDocument apDocument)
@@ -99,7 +134,14 @@ public enum Balise
 
 		public void stemmerApDocumentPartWord(Stemmer stemmer, String token, String docNo, int wordPosition)
 		{
-			stemmer.stemmerWord(token, docNo, 1, new WordPosition(Balise.BYLINE, wordPosition));
+			String wordStemmer = stemmer.stemmerWord(token);
+			if (!(wordStemmer.equals("")))
+			{
+				if (!Dictionary.getStopWords().contains(wordStemmer))
+				{
+					Dictionary.addWord(wordStemmer, docNo.trim(), 1, new WordPosition(Balise.BYLINE, wordPosition));
+				}
+			}
 		}
 
 		public String getApDocumentTextContent(ApDocument apDocument)
@@ -116,7 +158,14 @@ public enum Balise
 
 		public void stemmerApDocumentPartWord(Stemmer stemmer, String token, String docNo, int wordPosition)
 		{
-			stemmer.stemmerWord(token, docNo, 1, new WordPosition(Balise.DATELINE, wordPosition));
+			String wordStemmer = stemmer.stemmerWord(token);
+			if (!(wordStemmer.equals("")))
+			{
+				if (!Dictionary.getStopWords().contains(wordStemmer))
+				{
+					Dictionary.addWord(wordStemmer, docNo.trim(), 1, new WordPosition(Balise.DATELINE, wordPosition));
+				}
+			}
 		}
 
 		public String getApDocumentTextContent(ApDocument apDocument)
@@ -133,7 +182,14 @@ public enum Balise
 
 		public void stemmerApDocumentPartWord(Stemmer stemmer, String token, String docNo, int wordPosition)
 		{
-			stemmer.stemmerWord(token, docNo, 1, new WordPosition(Balise.TEXT, wordPosition));
+			String wordStemmer = stemmer.stemmerWord(token);
+			if (!(wordStemmer.equals("")))
+			{
+				if (!Dictionary.getStopWords().contains(wordStemmer))
+				{
+					Dictionary.addWord(wordStemmer, docNo.trim(), 1, new WordPosition(Balise.TEXT, wordPosition));
+				}
+			}
 		}
 
 		public String getApDocumentTextContent(ApDocument apDocument)
@@ -150,7 +206,14 @@ public enum Balise
 
 		public void stemmerApDocumentPartWord(Stemmer stemmer, String token, String docNo, int wordPosition)
 		{
-			stemmer.stemmerWord(token, docNo, 1, new WordPosition(Balise.NOTE, wordPosition));
+			String wordStemmer = stemmer.stemmerWord(token);
+			if (!(wordStemmer.equals("")))
+			{
+				if (!Dictionary.getStopWords().contains(wordStemmer))
+				{
+					Dictionary.addWord(wordStemmer, docNo.trim(), 1, new WordPosition(Balise.NOTE, wordPosition));
+				}
+			}
 		}
 
 		public String getApDocumentTextContent(ApDocument apDocument)
@@ -167,7 +230,14 @@ public enum Balise
 
 		public void stemmerApDocumentPartWord(Stemmer stemmer, String token, String docNo, int wordPosition)
 		{
-			stemmer.stemmerWord(token, docNo, 1, new WordPosition(Balise.UNK, wordPosition));
+			String wordStemmer = stemmer.stemmerWord(token);
+			if (!(wordStemmer.equals("")))
+			{
+				if (!Dictionary.getStopWords().contains(wordStemmer))
+				{
+					Dictionary.addWord(wordStemmer, docNo.trim(), 1, new WordPosition(Balise.UNK, wordPosition));
+				}
+			}
 		}
 
 		public String getApDocumentTextContent(ApDocument apDocument)

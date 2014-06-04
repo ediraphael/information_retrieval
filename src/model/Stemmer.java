@@ -606,13 +606,7 @@ class Stemmer
 		i = 0;
 	}
 
-	/**
-	 * Méthode pour stemmer un mot et l'ajouter à la liste stemmerFile.
-	 * 
-	 * @param word
-	 *            Mot à stemmer.
-	 */
-	public void stemmerWord(String word, String fileName, int ratio, WordPosition wordPosition)
+	public String stemmerWord(String word)
 	{
 		char[] w = word.toCharArray();
 		int j = 0;
@@ -626,33 +620,9 @@ class Stemmer
 				{
 					j++;
 				}
-			}
-		}
-		for (int c = 0; c < j; c++)
-		{
-			this.add(w[c]);
-		}
-		this.stem();
-		String wordStemmer = new String(this.getResultBuffer(), 0, this.getResultLength());
-		if (!(wordStemmer.equals("")))
-		{
-			if (!Dictionary.getStopWords().contains(wordStemmer))
+			} else if (Character.isDigit(w[i]))
 			{
-				Dictionary.addWord(wordStemmer, fileName.trim(), ratio, wordPosition);
-			}
-		}
-	}
-
-	public String stemmerWord(String word)
-	{
-		char[] w = word.toCharArray();
-		int j = 0;
-		for (int i = 0; i < w.length; i++)
-		{
-			if (Character.isLetter((char) w[i]))
-			{
-				w[i] = Character.toLowerCase((char) w[i]);
-				w[j] = (char) w[i];
+				w[j] = w[i];
 				if (j < 500)
 				{
 					j++;
