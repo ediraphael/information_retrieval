@@ -215,43 +215,43 @@ public class MainView
 
 		secondSeparator = new JSeparator();
 		panSeparatorContainer.add(secondSeparator, BorderLayout.CENTER);
-		
+
 		vsBetweenChoiceAndResult = Box.createVerticalStrut(20);
 		vsBetweenChoiceAndResult.setPreferredSize(new Dimension(0, 10));
 		panSeparatorContainer.add(vsBetweenChoiceAndResult, BorderLayout.SOUTH);
-		
+
 		panChoice = new JPanel();
 		panChoice.setPreferredSize(new Dimension(10, 50));
 		panSeparator.add(panChoice, BorderLayout.SOUTH);
 		panChoice.setLayout(new BorderLayout(0, 0));
-		
+
 		hsChoiceLeftSetting = Box.createHorizontalStrut(20);
 		hsChoiceLeftSetting.setPreferredSize(new Dimension(10, 0));
 		panChoice.add(hsChoiceLeftSetting, BorderLayout.WEST);
-		
+
 		panChoiceContainer = new JPanel();
 		panChoice.add(panChoiceContainer, BorderLayout.CENTER);
 		panChoiceContainer.setLayout(new BorderLayout(0, 0));
-		
+
 		panTypeSearch = new JPanel();
 		panTypeSearch.setPreferredSize(new Dimension(145, 10));
 		panChoiceContainer.add(panTypeSearch, BorderLayout.WEST);
 		panTypeSearch.setLayout(new BorderLayout(0, 0));
-		
+
 		labelTypeOfSearch = new JLabel("Type de recherche :");
 		labelTypeOfSearch.setFont(new Font("Dialog", Font.BOLD, 12));
 		labelTypeOfSearch.setForeground(new Color(0, 0, 128));
 		panTypeSearch.add(labelTypeOfSearch, BorderLayout.NORTH);
-		
+
 		rdbTypeSearch = new JPanel();
 		rdbTypeSearch.setPreferredSize(new Dimension(10, 30));
 		panTypeSearch.add(rdbTypeSearch, BorderLayout.SOUTH);
 		rdbTypeSearch.setLayout(new BorderLayout(0, 0));
-		
+
 		rdbtnSimple = new JRadioButton("Simple");
-		rdbtnSimple.addActionListener(new ActionListener() 
+		rdbtnSimple.addActionListener(new ActionListener()
 		{
-			public void actionPerformed(ActionEvent e) 
+			public void actionPerformed(ActionEvent e)
 			{
 				panRestrictionType.setVisible(false);
 				rdbtnUnion.setSelected(true);
@@ -262,11 +262,11 @@ public class MainView
 		rdbtnSimple.setForeground(new Color(0, 0, 139));
 		rdbtnSimple.setFont(new Font("Dialog", Font.ITALIC, 12));
 		rdbTypeSearch.add(rdbtnSimple, BorderLayout.WEST);
-		
+
 		rdbtnAdvance = new JRadioButton("Avancé");
-		rdbtnAdvance.addActionListener(new ActionListener() 
+		rdbtnAdvance.addActionListener(new ActionListener()
 		{
-			public void actionPerformed(ActionEvent arg0) 
+			public void actionPerformed(ActionEvent arg0)
 			{
 				panRestrictionType.setVisible(true);
 			}
@@ -276,38 +276,38 @@ public class MainView
 		rdbtnAdvance.setFont(new Font("Dialog", Font.ITALIC, 12));
 		rdbtnAdvance.setActionCommand("Avancé");
 		rdbTypeSearch.add(rdbtnAdvance, BorderLayout.EAST);
-		
+
 		panchoiceRight = new JPanel();
 		panChoiceContainer.add(panchoiceRight, BorderLayout.CENTER);
 		panchoiceRight.setLayout(new BorderLayout(0, 0));
-		
+
 		panRestrictionType = new JPanel();
 		panRestrictionType.setPreferredSize(new Dimension(210, 10));
 		panchoiceRight.add(panRestrictionType, BorderLayout.WEST);
 		panRestrictionType.setLayout(new BorderLayout(0, 0));
 		panRestrictionType.setVisible(false);
-		
+
 		hsChoiceBeetweenSetting = Box.createHorizontalStrut(20);
 		hsChoiceBeetweenSetting.setPreferredSize(new Dimension(40, 0));
 		panRestrictionType.add(hsChoiceBeetweenSetting, BorderLayout.WEST);
-		
+
 		panRestrictionTypeContainer = new JPanel();
 		panRestrictionType.add(panRestrictionTypeContainer, BorderLayout.CENTER);
 		panRestrictionTypeContainer.setLayout(new BorderLayout(0, 0));
-		
+
 		rdbtnUnion = new JRadioButton("Union");
 		bgTypeRestriction.add(rdbtnUnion);
 		rdbtnUnion.setSelected(true);
 		rdbtnUnion.setFont(new Font("Dialog", Font.ITALIC, 12));
 		rdbtnUnion.setForeground(new Color(0, 0, 139));
 		panRestrictionTypeContainer.add(rdbtnUnion, BorderLayout.WEST);
-		
+
 		rdbtnIntersection = new JRadioButton("Intersection");
 		bgTypeRestriction.add(rdbtnIntersection);
 		rdbtnIntersection.setFont(new Font("Dialog", Font.ITALIC, 12));
 		rdbtnIntersection.setForeground(new Color(0, 0, 139));
 		panRestrictionTypeContainer.add(rdbtnIntersection, BorderLayout.EAST);
-		
+
 		labelTypeDeRestriction = new JLabel("Type de restriction :");
 		labelTypeDeRestriction.setForeground(new Color(0, 0, 128));
 		panRestrictionTypeContainer.add(labelTypeDeRestriction, BorderLayout.NORTH);
@@ -358,19 +358,16 @@ public class MainView
 		if (textFieldQuery.getText().isEmpty())
 		{
 			JOptionPane.showMessageDialog(frmEzSearch, "Veuillez entrer une requête", null, JOptionPane.ERROR_MESSAGE);
-		} 
-		else
+		} else
 		{
 			Search search = new Search(textFieldQuery.getText());
 
-			if(rdbtnAdvance.isSelected() && rdbtnIntersection.isSelected())
+			if (rdbtnAdvance.isSelected() && rdbtnIntersection.isSelected())
 			{
-				//TODO lancer recherche intersection
-			}
-			else
+				search.executeIntersection();
+			} else
 			{
-				//TODO lancer recherche union
-				search.execute();
+				search.executeUnion();
 			}
 			DefaultListModel<String> result = search.getListResultOrdered();
 			listResultDoc.setModel(result);

@@ -56,29 +56,8 @@ public class Search
 		return sortedEntries;
 	}
 
-	public void execute()
+	private void executeEnd(ArrayList<String> stemmerQuerry, HashMap<String, Double> docValue)
 	{
-		ArrayList<String> stemmerQuerry = stemmerQuery();
-		HashMap<String, Double> docValue = new HashMap<String, Double>();
-		for (String wordQuerry : stemmerQuerry)
-		{
-			if (Dictionary.getElements().containsKey(wordQuerry))
-			{
-				HashMap<String, DataReferency> wordDictionary = Dictionary.getElements().get(wordQuerry);
-				Set<String> docNoList = wordDictionary.keySet();
-				for (String docNo : docNoList)
-				{
-					if (docValue.containsKey(docNo))
-					{
-						docValue.put(docNo, docValue.get(docNo) + wordDictionary.get(docNo).getWeight());
-					} else
-					{
-						docValue.put(docNo, wordDictionary.get(docNo).getWeight());
-					}
-				}
-			}
-		}
-
 		if (stemmerQuerry.size() >= 2)
 		{
 			for (String docNo : docValue.keySet())
@@ -102,9 +81,9 @@ public class Search
 						ArrayList<String> stemmerQuerryCopy2 = new ArrayList<String>(stemmerQuerryCopy);
 						ecart = Math.min(recursiveQuerySearch(stemmerQuerryCopy2, docNo, wordPositionNext), ecart);
 					}
-					docValue.put(docNo, docValue.get(docNo) + (((ecart == 0 ? 1.0 : 1.0 / ecart)) * (((stemmerQuerryCopy.size() + 1.0)*(stemmerQuerryCopy.size() + 1.0)) / stemmerQuerry.size()) * 50));
+					docValue.put(docNo, docValue.get(docNo) + (((ecart == 0 ? 1.0 : 1.0 / ecart)) * (((stemmerQuerryCopy.size() + 1.0) * (stemmerQuerryCopy.size() + 1.0)) / stemmerQuerry.size()) * 50));
 					System.out.println("stemmerQuery size : " + stemmerQuerry.size() + ", copy size : " + stemmerQuerryCopy.size() + 1);
-					System.out.println("gain : " + (((ecart == 0 ? 1.0 : 1.0 / ecart)) * (((stemmerQuerryCopy.size() + 1.0)*(stemmerQuerryCopy.size() + 1.0)) / stemmerQuerry.size()) * 50));
+					System.out.println("gain : " + (((ecart == 0 ? 1.0 : 1.0 / ecart)) * (((stemmerQuerryCopy.size() + 1.0) * (stemmerQuerryCopy.size() + 1.0)) / stemmerQuerry.size()) * 50));
 					System.out.println(docNo + "->" + ecart + ", value : " + docValue.get(docNo));
 				}
 			}
@@ -113,6 +92,74 @@ public class Search
 		this.result = docValue;
 		System.out.println(entriesSortedByReverseValues(docValue));
 		System.out.println(docValue.size());
+	}
+
+	public void executeIntersection()
+	{
+		ArrayList<String> stemmerQuerry = stemmerQuery();
+		HashMap<String, Double> docValue = new HashMap<String, Double>();
+		boolean firstOne = true;
+		ArrayList<String> docNoRetain = new ArrayList<String>();
+
+		for (String wordQuerry : stemmerQuerry)
+		{
+			if (Dictionary.getElements().containsKey(wordQuerry))
+			{
+				Set<String> docNoList = Dictionary.getElements().get(wordQuerry).keySet();
+				if (firstOne)
+				{
+					firstOne = false;
+					docNoRetain.addAll(docNoList);
+				}else
+				{
+					docNoRetain.retainAll(docNoList);
+				}
+			}
+		}
+
+		for (String wordQuerry : stemmerQuerry)
+		{
+			if (Dictionary.getElements().containsKey(wordQuerry))
+			{
+				HashMap<String, DataReferency> wordDictionary = Dictionary.getElements().get(wordQuerry);
+				for (String docNo : docNoRetain)
+				{
+					if (docValue.containsKey(docNo))
+					{
+						docValue.put(docNo, docValue.get(docNo) + wordDictionary.get(docNo).getWeight());
+					} else
+					{
+						docValue.put(docNo, wordDictionary.get(docNo).getWeight());
+					}
+				}
+			}
+		}
+		executeEnd(stemmerQuerry, docValue);
+	}
+
+	public void executeUnion()
+	{
+		ArrayList<String> stemmerQuerry = stemmerQuery();
+		HashMap<String, Double> docValue = new HashMap<String, Double>();
+		for (String wordQuerry : stemmerQuerry)
+		{
+			if (Dictionary.getElements().containsKey(wordQuerry))
+			{
+				HashMap<String, DataReferency> wordDictionary = Dictionary.getElements().get(wordQuerry);
+				Set<String> docNoList = wordDictionary.keySet();
+				for (String docNo : docNoList)
+				{
+					if (docValue.containsKey(docNo))
+					{
+						docValue.put(docNo, docValue.get(docNo) + wordDictionary.get(docNo).getWeight());
+					} else
+					{
+						docValue.put(docNo, wordDictionary.get(docNo).getWeight());
+					}
+				}
+			}
+		}
+		executeEnd(stemmerQuerry, docValue);
 	}
 
 	public double recursiveQuerySearch(ArrayList<String> stemmerQuerry, String docNo, WordPosition wordPosition)
