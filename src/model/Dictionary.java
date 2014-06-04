@@ -2,16 +2,17 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class Dictionary
 {
 	private static HashMap<String, HashMap<String, DataReferency>> elements;
-	private static ArrayList<String> stopWords;
+	private static HashSet<String> stopWords;
 
 	public Dictionary()
 	{
 		elements = new HashMap<String, HashMap<String, DataReferency>>();
-		stopWords = new ArrayList<String>();
+		stopWords = new HashSet<String>();
 	}
 
 	public static void addWord(String word, String docID, int ratio, WordPosition wordPosition)
@@ -39,12 +40,12 @@ public class Dictionary
 		elements = new HashMap<String, HashMap<String, DataReferency>>();
 	}
 
-	public static ArrayList<String> getStopWords()
+	public static HashSet<String> getStopWords()
 	{
 		return stopWords;
 	}
 
-	public static void setStopWords(ArrayList<String> stopWords)
+	public static void setStopWords(HashSet<String> stopWords)
 	{
 		Dictionary.stopWords = stopWords;
 	}

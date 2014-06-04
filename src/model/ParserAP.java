@@ -9,6 +9,7 @@ import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.StringTokenizer;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -31,7 +32,7 @@ public class ParserAP
 	public void loadAllApDocumentByFolder()
 	{
 		Dictionary.reset();
-		ArrayList<String> stopWords = new ArrayList<String>();
+		HashSet<String> stopWords = new HashSet<String>();
 		try
 		{
 			BufferedReader inputF = new BufferedReader(new FileReader("./bin/document/ap/stopWord/stopwords.txt"));

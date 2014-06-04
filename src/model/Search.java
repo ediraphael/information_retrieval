@@ -82,7 +82,7 @@ public class Search
 						ecart = Math.min(recursiveQuerySearch(stemmerQuerryCopy2, docNo, wordPositionNext), ecart);
 					}
 					docValue.put(docNo, docValue.get(docNo) + (((ecart == 0 ? 1.0 : 1.0 / ecart)) * (((stemmerQuerryCopy.size() + 1.0) * (stemmerQuerryCopy.size() + 1.0)) / stemmerQuerry.size()) * 50));
-					System.out.println("stemmerQuery size : " + stemmerQuerry.size() + ", copy size : " + stemmerQuerryCopy.size() + 1);
+					System.out.println("stemmerQuery size : " + stemmerQuerry.size() + ", copy size : " + (stemmerQuerryCopy.size() + 1));
 					System.out.println("gain : " + (((ecart == 0 ? 1.0 : 1.0 / ecart)) * (((stemmerQuerryCopy.size() + 1.0) * (stemmerQuerryCopy.size() + 1.0)) / stemmerQuerry.size()) * 50));
 					System.out.println(docNo + "->" + ecart + ", value : " + docValue.get(docNo));
 				}
@@ -110,7 +110,7 @@ public class Search
 				{
 					firstOne = false;
 					docNoRetain.addAll(docNoList);
-				}else
+				} else
 				{
 					docNoRetain.retainAll(docNoList);
 				}

@@ -380,11 +380,9 @@ public enum Balise
 		}
 		int maxOccurency = 0;
 		Set<String> dictionaryKeys = Dictionary.getElements().keySet();
-		System.out.println(dictionaryKeys.size());
-		dictionaryKeys.removeAll(Dictionary.getStopWords());
 		for (String dictionaryKey : dictionaryKeys)
 		{
-			if (Dictionary.getElements().get(dictionaryKey).containsKey(apDocument.getDocNo()))
+			if (!Dictionary.getStopWords().contains(dictionaryKey) && Dictionary.getElements().get(dictionaryKey).containsKey(apDocument.getDocNo()))
 			{
 				maxOccurency = Math.max(maxOccurency, Dictionary.getElements().get(dictionaryKey).get(apDocument.getDocNo()).getOccurency());
 			}
