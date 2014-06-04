@@ -82,9 +82,9 @@ public class Search
 						ecart = Math.min(recursiveQuerySearch(stemmerQuerryCopy2, docNo, wordPositionNext), ecart);
 					}
 					docValue.put(docNo, docValue.get(docNo) + (((ecart == 0 ? 1.0 : 1.0 / ecart)) * (((stemmerQuerryCopy.size() + 1.0) * (stemmerQuerryCopy.size() + 1.0)) / stemmerQuerry.size()) * 50));
-					System.out.println("stemmerQuery size : " + stemmerQuerry.size() + ", copy size : " + (stemmerQuerryCopy.size() + 1));
-					System.out.println("gain : " + (((ecart == 0 ? 1.0 : 1.0 / ecart)) * (((stemmerQuerryCopy.size() + 1.0) * (stemmerQuerryCopy.size() + 1.0)) / stemmerQuerry.size()) * 50));
-					System.out.println(docNo + "->" + ecart + ", value : " + docValue.get(docNo));
+					// System.out.println("stemmerQuery size : " + stemmerQuerry.size() + ", copy size : " + (stemmerQuerryCopy.size() + 1));
+					// System.out.println("gain : " + (((ecart == 0 ? 1.0 : 1.0 / ecart)) * (((stemmerQuerryCopy.size() + 1.0) * (stemmerQuerryCopy.size() + 1.0)) / stemmerQuerry.size()) * 50));
+					// System.out.println(docNo + "->" + ecart + ", value : " + docValue.get(docNo));
 				}
 			}
 		}
@@ -143,8 +143,10 @@ public class Search
 		HashMap<String, Double> docValue = new HashMap<String, Double>();
 		for (String wordQuerry : stemmerQuerry)
 		{
+			System.out.println(wordQuerry);
 			if (Dictionary.getElements().containsKey(wordQuerry))
 			{
+
 				HashMap<String, DataReferency> wordDictionary = Dictionary.getElements().get(wordQuerry);
 				Set<String> docNoList = wordDictionary.keySet();
 				for (String docNo : docNoList)
@@ -195,6 +197,10 @@ public class Search
 		{
 			String token = tokens.nextToken();
 			stemmerQuerry.add(stemmer.stemmerWord(token));
+		}
+		if (true)
+		{
+			stemmerQuerry.removeAll(Dictionary.getStopWords());
 		}
 		System.out.println(stemmerQuerry);
 		return stemmerQuerry;
