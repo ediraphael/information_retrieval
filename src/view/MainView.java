@@ -15,7 +15,6 @@ import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 
@@ -35,6 +34,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 public class MainView
 {
@@ -58,7 +59,8 @@ public class MainView
 	private JPanel panRestrictionTypeContainer;
 	private JPanel panStopWord;
 	private JPanel panStopWordContainer;
-
+	private JPanel panChoiceLeft;
+	
 	private JScrollPane scrollPanResult;
 	private JScrollPane scrollPanelistDoc;
 
@@ -82,10 +84,6 @@ public class MainView
 	private JSeparator firstSeparator;
 	private JSeparator secondSeparator;
 
-	private JLabel labelTypeOfSearch;
-	private JLabel labelTypeDeRestriction;
-	private JLabel labelStopwords;
-
 	private JRadioButton rdbtnYes;
 	private JRadioButton rdbtnNo;
 	private JRadioButton rdbtnSimple;
@@ -101,6 +99,7 @@ public class MainView
 	private JTextField textFieldQuery;
 	private JEditorPane editorResult;
 	private JList<String> listResultDoc;
+
 	
 	
 	/**
@@ -249,14 +248,10 @@ public class MainView
 		panChoiceContainer.setLayout(new BorderLayout(0, 0));
 
 		panTypeSearch = new JPanel();
-		panTypeSearch.setPreferredSize(new Dimension(145, 10));
+		panTypeSearch.setBorder(new TitledBorder(new LineBorder(new Color(65, 105, 225), 1, true), "Type de recherche", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 128)));
+		panTypeSearch.setPreferredSize(new Dimension(155, 10));
 		panChoiceContainer.add(panTypeSearch, BorderLayout.WEST);
 		panTypeSearch.setLayout(new BorderLayout(0, 0));
-
-		labelTypeOfSearch = new JLabel("Type de recherche :");
-		labelTypeOfSearch.setFont(new Font("Dialog", Font.BOLD, 12));
-		labelTypeOfSearch.setForeground(new Color(0, 0, 128));
-		panTypeSearch.add(labelTypeOfSearch, BorderLayout.NORTH);
 
 		rdbTypeSearch = new JPanel();
 		rdbTypeSearch.setPreferredSize(new Dimension(10, 30));
@@ -298,7 +293,7 @@ public class MainView
 		panchoiceRight.setLayout(new BorderLayout(0, 0));
 
 		panRestrictionType = new JPanel();
-		panRestrictionType.setPreferredSize(new Dimension(210, 10));
+		panRestrictionType.setPreferredSize(new Dimension(220, 10));
 		panchoiceRight.add(panRestrictionType, BorderLayout.WEST);
 		panRestrictionType.setLayout(new BorderLayout(0, 0));
 		panchoiceRight.setVisible(false);
@@ -308,6 +303,7 @@ public class MainView
 		panRestrictionType.add(hsChoiceBeetweenSetting, BorderLayout.WEST);
 
 		panRestrictionTypeContainer = new JPanel();
+		panRestrictionTypeContainer.setBorder(new TitledBorder(new LineBorder(new Color(65, 105, 225), 1, true), "Type de restriction", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 128)));
 		panRestrictionType.add(panRestrictionTypeContainer, BorderLayout.CENTER);
 		panRestrictionTypeContainer.setLayout(new BorderLayout(0, 0));
 
@@ -323,10 +319,6 @@ public class MainView
 		rdbtnIntersection.setFont(new Font("Dialog", Font.ITALIC, 12));
 		rdbtnIntersection.setForeground(new Color(0, 0, 139));
 		panRestrictionTypeContainer.add(rdbtnIntersection, BorderLayout.EAST);
-
-		labelTypeDeRestriction = new JLabel("Type de restriction :");
-		labelTypeDeRestriction.setForeground(new Color(0, 0, 128));
-		panRestrictionTypeContainer.add(labelTypeDeRestriction, BorderLayout.NORTH);
 		
 		panStopWord = new JPanel();
 		panchoiceRight.add(panStopWord, BorderLayout.CENTER);
@@ -336,13 +328,15 @@ public class MainView
 		hsBetweenRestrictionAndStopWordSetting.setPreferredSize(new Dimension(40, 0));
 		panStopWord.add(hsBetweenRestrictionAndStopWordSetting, BorderLayout.WEST);
 		
-		panStopWordContainer = new JPanel();
-		panStopWord.add(panStopWordContainer, BorderLayout.CENTER);
-		panStopWordContainer.setLayout(new BorderLayout(0, 0));
+		panChoiceLeft = new JPanel();
+		panStopWord.add(panChoiceLeft, BorderLayout.CENTER);
+		panChoiceLeft.setLayout(new BorderLayout(0, 0));
 		
-		labelStopwords = new JLabel("StopWords :");
-		labelStopwords.setForeground(new Color(0, 0, 128));
-		panStopWordContainer.add(labelStopwords, BorderLayout.NORTH);
+		panStopWordContainer = new JPanel();
+		panStopWordContainer.setPreferredSize(new Dimension(115, 10));
+		panChoiceLeft.add(panStopWordContainer, BorderLayout.WEST);
+		panStopWordContainer.setBorder(new TitledBorder(new LineBorder(new Color(65, 105, 225), 1, true), "StopWords", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 128)));
+		panStopWordContainer.setLayout(new BorderLayout(0, 0));
 		
 		rdbtnYes = new JRadioButton("Oui");
 		rdbtnYes.setSelected(true);
@@ -355,7 +349,7 @@ public class MainView
 		bgStopWord.add(rdbtnNo);
 		rdbtnNo.setFont(new Font("Dialog", Font.ITALIC, 12));
 		rdbtnNo.setForeground(new Color(0, 0, 139));
-		panStopWordContainer.add(rdbtnNo, BorderLayout.CENTER);
+		panStopWordContainer.add(rdbtnNo, BorderLayout.EAST);
 
 		panResultContainer = new JPanel();
 		panResult.add(panResultContainer, BorderLayout.CENTER);
