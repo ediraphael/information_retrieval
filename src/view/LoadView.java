@@ -43,7 +43,7 @@ public class LoadView
 	private Component hsMainSettingRight;
 	private Component vsMainSettingLow;
 	private Component vsPanLoadLowSetting;
-	private Component horizontalStrut;
+	private Component hsImgLoadingLeftSetting;
 
 	private JProgressBar progressBarLoad;
 	private ParserAP parser = new ParserAP();
@@ -51,7 +51,7 @@ public class LoadView
 	private ImageIcon imgMen;
 	private ImageIcon imgLoading;
 	private JPanel panel;
-	private Component horizontalStrut_1;
+	private Component hsImgMenLeftSetting;
 	public static long executionTime;
 
 	public class LoadThread extends Thread
@@ -171,9 +171,9 @@ public class LoadView
 		labelImgLoading.setIcon(imgLoading);
 		panImg.add(labelImgLoading, BorderLayout.CENTER);
 
-		horizontalStrut = Box.createHorizontalStrut(20);
-		horizontalStrut.setPreferredSize(new Dimension(200, 0));
-		panImg.add(horizontalStrut, BorderLayout.WEST);
+		hsImgLoadingLeftSetting = Box.createHorizontalStrut(20);
+		hsImgLoadingLeftSetting.setPreferredSize(new Dimension(200, 0));
+		panImg.add(hsImgLoadingLeftSetting, BorderLayout.WEST);
 
 		imgMen = new ImageIcon("./bin/document/image/men.gif");
 
@@ -184,9 +184,9 @@ public class LoadView
 		panel.add(labelImgMen, BorderLayout.CENTER);
 		labelImgMen.setIcon(imgMen);
 
-		horizontalStrut_1 = Box.createHorizontalStrut(20);
-		horizontalStrut_1.setPreferredSize(new Dimension(180, 0));
-		panel.add(horizontalStrut_1, BorderLayout.WEST);
+		hsImgMenLeftSetting = Box.createHorizontalStrut(20);
+		hsImgMenLeftSetting.setPreferredSize(new Dimension(190, 0));
+		panel.add(hsImgMenLeftSetting, BorderLayout.WEST);
 
 		hsMainSettingLeft = Box.createHorizontalStrut(20);
 		mainPan.add(hsMainSettingLeft, BorderLayout.WEST);

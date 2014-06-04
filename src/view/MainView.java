@@ -48,7 +48,19 @@ public class MainView
 	private JPanel panSeparator;
 	private JPanel panSeparatorContainer;
 	private JPanel panTextAreaResult;
+	private JPanel panResultContainer;
+	private JPanel panChoice;
+	private JPanel panChoiceContainer;
+	private JPanel panTypeSearch;
+	private JPanel rdbTypeSearch;
+	private JPanel panchoiceRight;
+	private JPanel panRestrictionType;
+	private JPanel panRestrictionTypeContainer;
+	private JPanel panStopWord;
+	private JPanel panStopWordContainer;
+
 	private JScrollPane scrollPanResult;
+	private JScrollPane scrollPanelistDoc;
 
 	private Component vsActionLowSetting;
 	private Component hsBtnSearchRightSetting;
@@ -62,41 +74,43 @@ public class MainView
 	private Component hsSeparatorLeftSetting;
 	private Component hsSeparatorRightSetting;
 	private Component horizontalStrut;
+	private Component hsChoiceLeftSetting;
+	private Component hsChoiceBeetweenSetting;
+	private Component vsBetweenChoiceAndResult;
+	private Component hsBetweenRestrictionAndStopWordSetting;
 
 	private JSeparator firstSeparator;
 	private JSeparator secondSeparator;
-	private JButton btnSearch;
-	private JTextField textFieldQuery;
-	private JEditorPane textAreaResult;
-	private JPanel panResultContainer;
-	private JScrollPane scrollPanelistDoc;
-	private JList<String> listResultDoc;
-	private JPanel panChoice;
-	private Component hsChoiceLeftSetting;
-	private JPanel panChoiceContainer;
-	private JPanel panTypeSearch;
+
 	private JLabel labelTypeOfSearch;
-	private JPanel rdbTypeSearch;
+	private JLabel labelTypeDeRestriction;
+	private JLabel labelStopwords;
+
+	private JRadioButton rdbtnYes;
+	private JRadioButton rdbtnNo;
 	private JRadioButton rdbtnSimple;
 	private JRadioButton rdbtnAdvance;
-	private JPanel panchoiceRight;
-	private JPanel panRestrictionType;
-	private Component hsChoiceBeetweenSetting;
-	private JPanel panRestrictionTypeContainer;
 	private JRadioButton rdbtnUnion;
 	private JRadioButton rdbtnIntersection;
-	private JLabel labelTypeDeRestriction;
+
 	private final ButtonGroup bgTypeRestriction = new ButtonGroup();
 	private final ButtonGroup bgTypeSearch = new ButtonGroup();
-	private Component vsBetweenChoiceAndResult;
+	private final ButtonGroup bgStopWord = new ButtonGroup();
 
+	private JButton btnSearch;
+	private JTextField textFieldQuery;
+	private JEditorPane editorResult;
+	private JList<String> listResultDoc;
+	
+	
 	/**
 	 * Create the application.
 	 */
 	public MainView(long executionTime)
 	{
 		initialize();
-		System.out.println(executionTime);
+		editorResult.setText("<br/><center><b><font color='#000080'>Chargement effectué en </font><font color='blue'>"
+				+(executionTime/1000f)+"</font>  <font color='#000080'> secondes</font></b></center>");
 	}
 
 	/**
@@ -254,8 +268,9 @@ public class MainView
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				panRestrictionType.setVisible(false);
+				panchoiceRight.setVisible(false);
 				rdbtnUnion.setSelected(true);
+				rdbtnYes.setSelected(true);
 			}
 		});
 		bgTypeSearch.add(rdbtnSimple);
@@ -269,7 +284,7 @@ public class MainView
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				panRestrictionType.setVisible(true);
+				panchoiceRight.setVisible(true);
 			}
 		});
 		bgTypeSearch.add(rdbtnAdvance);
@@ -286,8 +301,8 @@ public class MainView
 		panRestrictionType.setPreferredSize(new Dimension(210, 10));
 		panchoiceRight.add(panRestrictionType, BorderLayout.WEST);
 		panRestrictionType.setLayout(new BorderLayout(0, 0));
-		panRestrictionType.setVisible(false);
-
+		panchoiceRight.setVisible(false);
+		
 		hsChoiceBeetweenSetting = Box.createHorizontalStrut(20);
 		hsChoiceBeetweenSetting.setPreferredSize(new Dimension(40, 0));
 		panRestrictionType.add(hsChoiceBeetweenSetting, BorderLayout.WEST);
@@ -312,6 +327,35 @@ public class MainView
 		labelTypeDeRestriction = new JLabel("Type de restriction :");
 		labelTypeDeRestriction.setForeground(new Color(0, 0, 128));
 		panRestrictionTypeContainer.add(labelTypeDeRestriction, BorderLayout.NORTH);
+		
+		panStopWord = new JPanel();
+		panchoiceRight.add(panStopWord, BorderLayout.CENTER);
+		panStopWord.setLayout(new BorderLayout(0, 0));
+		
+		hsBetweenRestrictionAndStopWordSetting = Box.createHorizontalStrut(20);
+		hsBetweenRestrictionAndStopWordSetting.setPreferredSize(new Dimension(40, 0));
+		panStopWord.add(hsBetweenRestrictionAndStopWordSetting, BorderLayout.WEST);
+		
+		panStopWordContainer = new JPanel();
+		panStopWord.add(panStopWordContainer, BorderLayout.CENTER);
+		panStopWordContainer.setLayout(new BorderLayout(0, 0));
+		
+		labelStopwords = new JLabel("StopWords :");
+		labelStopwords.setForeground(new Color(0, 0, 128));
+		panStopWordContainer.add(labelStopwords, BorderLayout.NORTH);
+		
+		rdbtnYes = new JRadioButton("Oui");
+		rdbtnYes.setSelected(true);
+		bgStopWord.add(rdbtnYes);
+		rdbtnYes.setForeground(new Color(0, 0, 139));
+		rdbtnYes.setFont(new Font("Dialog", Font.ITALIC, 12));
+		panStopWordContainer.add(rdbtnYes, BorderLayout.WEST);
+		
+		rdbtnNo = new JRadioButton("Non");
+		bgStopWord.add(rdbtnNo);
+		rdbtnNo.setFont(new Font("Dialog", Font.ITALIC, 12));
+		rdbtnNo.setForeground(new Color(0, 0, 139));
+		panStopWordContainer.add(rdbtnNo, BorderLayout.CENTER);
 
 		panResultContainer = new JPanel();
 		panResult.add(panResultContainer, BorderLayout.CENTER);
@@ -328,9 +372,9 @@ public class MainView
 		scrollPanResult = new JScrollPane();
 		panTextAreaResult.add(scrollPanResult, BorderLayout.CENTER);
 
-		textAreaResult = new JEditorPane("text/html", "");
-		textAreaResult.setEditable(false);
-		scrollPanResult.setViewportView(textAreaResult);
+		editorResult = new JEditorPane("text/html", "");
+		editorResult.setEditable(false);
+		scrollPanResult.setViewportView(editorResult);
 
 		scrollPanelistDoc = new JScrollPane();
 		scrollPanelistDoc.setPreferredSize(new Dimension(130, 0));
@@ -343,7 +387,7 @@ public class MainView
 			public void mouseClicked(MouseEvent e)
 			{
 				ParserAP parser = new ParserAP();
-				textAreaResult.setText(parser.loadApDocument(listResultDoc.getSelectedValue(), textFieldQuery.getText()));
+				editorResult.setText(parser.loadApDocument(listResultDoc.getSelectedValue(), textFieldQuery.getText()));
 			}
 		});
 
@@ -354,7 +398,7 @@ public class MainView
 
 	private void startSearch()
 	{
-		textAreaResult.setText("");
+		editorResult.setText("");
 
 		if (textFieldQuery.getText().isEmpty())
 		{
@@ -363,10 +407,16 @@ public class MainView
 		{
 			Search search = new Search(textFieldQuery.getText());
 
+			if (rdbtnAdvance.isSelected() && rdbtnNo.isSelected())
+			{
+				//TODO mettre boolean stopword a false
+			}
+			
 			if (rdbtnAdvance.isSelected() && rdbtnIntersection.isSelected())
 			{
 				search.executeIntersection();
-			} else
+			} 
+			else
 			{
 				search.executeUnion();
 			}

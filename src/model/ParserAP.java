@@ -146,7 +146,7 @@ public class ParserAP
 						}
 						if (!(nodeElement instanceof Text) && registerDocument)
 						{
-							text.append(nodeElement.getNodeName().trim() + "> ");
+							text.append("<font color='#1D1DC6'><i>"+nodeElement.getNodeName().trim() + "</i><b>></b></font>");
 							StringTokenizer tokens = new StringTokenizer(nodeElement.getTextContent().trim(), " ''``;,.\n\t\r");
 							while (tokens.hasMoreTokens())
 							{
@@ -158,7 +158,7 @@ public class ParserAP
 									{
 										if (Dictionary.getElements().get(stem).containsKey(documentName.trim()))
 										{
-											text.append("<b sytle=\"font-color:#C41414\">" + word + " </b>");
+											text.append("<b><font color='red'>" + word + " <font></b>");
 										} else
 										{
 											text.append(word + " ");
