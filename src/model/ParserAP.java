@@ -158,7 +158,7 @@ public class ParserAP
 									{
 										if (Dictionary.getElements().get(stem).containsKey(documentName.trim()))
 										{
-											text.append("<b>" + word + " </b>");
+											text.append("<b sytle=\"font-color:#C41414\">" + word + " </b>");
 										} else
 										{
 											text.append(word + " ");
